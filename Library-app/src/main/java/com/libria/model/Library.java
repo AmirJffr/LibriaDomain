@@ -22,7 +22,10 @@ public class Library {
     }
 
 
-    public void addBook(Book book) throws BookAlreadyExistException {
+    public void addBook(User user, Book book) throws BookAlreadyExistException {
+        if (!(user instanceof Admin)) {
+            throw new AccessDeniedException("Action réservée aux administrateurs.");
+        }
         if (catalogByIsbn.containsKey(book.getIsbn())) {
          throw new BookAlreadyExistException("Livre déja existant !");
         }
@@ -30,7 +33,10 @@ public class Library {
 
     }
 
-    public void removeBook(String isbn) throws BookNotFoundException {
+    public void removeBook(User user, String isbn) throws BookNotFoundException {
+        if (!(user instanceof Admin)) {
+            throw new AccessDeniedException("Action réservée aux administrateurs.");
+        }
         if (!catalogByIsbn.containsKey(isbn)) {
             throw new BookNotFoundException("Livre introuvable !");
         }

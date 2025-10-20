@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class User {
+public abstract class User {
     private String userId;
     private String name;
     private String email;
@@ -20,6 +20,8 @@ public class User {
         this.password = password;
         this.downloadedBooks = new ArrayList<>();
     }
+
+    public abstract String getRole();
 
     public boolean login(String passwordInput) throws LoginException {
         if (passwordInput == null || passwordInput.isBlank()) {
@@ -95,7 +97,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return getRole() + "{" +
                 "userId='" + userId + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
