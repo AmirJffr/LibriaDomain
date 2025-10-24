@@ -1,0 +1,29 @@
+services:
+  payara-libria-service:
+    container_name: payara-libria-service
+    image: payara/server-full:6.2025.8-jdk17
+    environment:
+      SECURE_ADMIN: "true"
+      ADMIN_USER: "admin"
+      ADMIN_PASSWORD: "admin"
+    ports:
+      - "8081:8080"   # exposé sur ta machine
+      - "4849:4848"
+    volumes:
+      - ./LibriaService/target/LibriaService-1.0-SNAPSHOT.war:/opt/payara/appserver/glassfish/domains/domain1/autodeploy/LibriaService-1.0-SNAPSHOT.war
+
+  payara-libria-webapp:
+    container_name: payara-libria-webapp
+    image: payara/server-full:6.2025.8-jdk17
+    environment:
+      SECURE_ADMIN: "true"
+      ADMIN_USER: "admin"
+      ADMIN_PASSWORD: "admin"
+      LIBRIA_SERVICE_URL: "http://payara-libria-service:8080/LibriaService-1.0-SNAPSHOT/api"
+    depends_on:
+      - payara-libria-service
+    ports:
+      - "8082:8080"
+      - "4850:4848"
+    volumes:
+      - ./LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT.war:/opt/payara/appserver/glassfish/domains/domain1/autodeploy/LibriaWebApp-1.0-SNAPSHOT.war

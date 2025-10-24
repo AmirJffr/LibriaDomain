@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<h:head>
+    <title>Libria — Mes téléchargements</title>
+    <h:outputStylesheet library="css" name="styles.css"/>
+</h:head>
+<h:body class="page">
+    <ui:include src="/layout/navbar.xhtml"/>
+
+    <div class="container">
+        <h2>Mes téléchargements</h2>
+
+        <h:form id="filters" styleClass="mb-3">
+            <div class="search-bar">
+                <p:inputText value="#{downloadsBean.queryTitle}" placeholder="Filtrer par titre" styleClass="mr-2"/>
+                <p:inputText value="#{downloadsBean.queryGenre}" placeholder="Filtrer par genre" styleClass="mr-2"/>
+                <p:commandButton value="Filtrer" actionListener="#{downloadsBean.filter}" update="table"/>
+                <p:commandButton value="Tout" actionListener="#{downloadsBean.reload}" update="table"
+                                 styleClass="ml-2 ui-button-secondary"/>
+            </div>
+        </h:form>
+
+        <p:dataTable id="table" value="#{downloadsBean.books}" var="b" paginator="true" rows="10" styleClass="w-100">
+            <p:column headerText="Titre">
+                <h:outputText value="#{b.title}"/>
+            </p:column>
+            <p:column headerText="Auteur">
+                <h:outputText value="#{b.author}"/>
+            </p:column>
+            <p:column headerText="Genre">
+                <span class="tag">#{b.genre}</span>
+            </p:column>
+            <p:column headerText="Action" style="width:160px;text-align:right;">
+                <h:form>
+                    <p:commandButton value="Retirer"
+                                     icon="pi pi-times"
+                                     styleClass="ui-button-danger"
+                                     actionListener="#{downloadsBean.remove(b.isbn)}"
+                                     update="@form,:table"/>
+                </h:form>
+            </p:column>
+        </p:dataTable>
+    </div>
+</h:body>
+</html>

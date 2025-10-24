@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Library-app:war" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e756e222-a799-4b46-aeb6-02ca25b69e58" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/LibriaDomain/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LibriaDomain/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/rest/LibriaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/LibriaDomain.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/main/java/com/libria/app/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/domain/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/main/java/com/libria/exception/AccessDeniedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/exception/AccessDeniedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/main/java/com/libria/exception/BookAlreadyExistException.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/exception/BookAlreadyExistException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/main/java/com/libria/exception/BookNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/exception/BookNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/main/java/com/libria/exception/LibriaException.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/exception/LibriaException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/main/java/com/libria/exception/UserAlreadyExistException.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/exception/UserAlreadyExistException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/main/java/com/libria/model/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/rest/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/main/java/com/libria/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/rest/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/main/java/com/libria/model/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/rest/Library.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/main/java/com/libria/model/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/rest/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/main/java/com/libria/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/main/java/com/libria/rest/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/test/java/com/libria/model/AdminTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/test/java/com/libria/model/AdminTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/test/java/com/libria/model/BookTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/test/java/com/libria/model/BookTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/test/java/com/libria/model/LibraryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/test/java/com/libria/model/LibraryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/test/java/com/libria/model/MemberTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/test/java/com/libria/model/MemberTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library-app/src/test/java/com/libria/model/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibriaDomain/src/test/java/com/libria/model/UserTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="34MkyMa8zQABtINmQUBSIYlhmMZ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "JUnit.AdminTest.executor": "Run",
+    "JUnit.BookTest.executor": "Run",
+    "JUnit.LibraryTest.executor": "Run",
+    "JUnit.MemberTest.executor": "Run",
+    "JUnit.UserTest.executor": "Run",
+    "Maven.Library-app [clean].executor": "Run",
+    "Maven.Library-app [deploy].executor": "Run",
+    "Maven.Library-app [validate].executor": "Run",
+    "Payara Server.Payara 6.10.0.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/zakk/Desktop/Projets/LibriaDomain",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/LibriaService" />
+      <recent name="$PROJECT_DIR$/Library-app" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.libria.model" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="AdminTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Library-app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.libria.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.libria.model" />
+      <option name="MAIN_CLASS_NAME" value="com.libria.model.AdminTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Library-app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.libria.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.libria.model" />
+      <option name="MAIN_CLASS_NAME" value="com.libria.model.BookTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LibraryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Library-app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.libria.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.libria.model" />
+      <option name="MAIN_CLASS_NAME" value="com.libria.model.LibraryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MemberTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Library-app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.libria.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.libria.model" />
+      <option name="MAIN_CLASS_NAME" value="com.libria.model.MemberTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Library-app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.libria.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.libria.model" />
+      <option name="MAIN_CLASS_NAME" value="com.libria.model.UserTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Project" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Payara 6.10.0" type="PayaraServerConfiguration" factoryName="Remote" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="LOCAL" value="false" />
+      <option name="UPDATING_POLICY" value="hot-swap-classes" />
+      <deployment>
+        <artifact name="Library-app:war">
+          <settings />
+        </artifact>
+      </deployment>
+      <server-settings>
+        <data>
+          <option name="adminServerHost" value="" />
+          <option name="clusterName" value="" />
+          <option name="transportHostId" value="" />
+          <admin-server-host />
+          <cluster-name />
+          <host-id />
+        </data>
+      </server-settings>
+      <predefined_log_file enabled="true" id="GlassFish" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="51032" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="Library-app:war" />
+        </option>
+      </method>
+    </configuration>
+    <configuration default="true" type="PayaraServerConfiguration" factoryName="Remote" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="LOCAL" value="false" />
+      <deployment />
+      <server-settings>
+        <data>
+          <option name="adminServerHost" value="" />
+          <option name="clusterName" value="" />
+          <option name="transportHostId" value="" />
+          <admin-server-host />
+          <cluster-name />
+          <host-id />
+        </data>
+      </server-settings>
+      <predefined_log_file enabled="true" id="GlassFish" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="51032" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.AdminTest" />
+      <item itemvalue="JUnit.BookTest" />
+      <item itemvalue="JUnit.LibraryTest" />
+      <item itemvalue="JUnit.MemberTest" />
+      <item itemvalue="JUnit.UserTest" />
+      <item itemvalue="Payara Server.Payara 6.10.0" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.UserTest" />
+        <item itemvalue="JUnit.LibraryTest" />
+        <item itemvalue="JUnit.AdminTest" />
+        <item itemvalue="JUnit.MemberTest" />
+        <item itemvalue="JUnit.BookTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Logical" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e756e222-a799-4b46-aeb6-02ca25b69e58" name="Changes" comment="" />
+      <created>1761031081601</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761031081601</updated>
+      <workItem from="1761120971925" duration="2575000" />
+      <workItem from="1761241479447" duration="9527000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:jakarta.enterprise:jakarta.enterprise.cdi-api" />
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.validation:jakarta.validation-api" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.ejb:jakarta.ejb-api" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.ws.rs:jakarta.ws.rs-api" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.faces:jakarta.faces-api" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,10 @@
+com/libria/rest/UserResource$UpdateProfileBody.class
+com/libria/rest/AdminResource.class
+com/libria/rest/SharedLibrary.class
+com/libria/rest/LibraryResource.class
+com/libria/rest/MemberResource.class
+com/libria/rest/UserResource.class
+com/libria/LibriaApplication.class
+com/libria/rest/UserResource$LoginBody.class
+com/libria/rest/AuthResource.class
+com/libria/rest/UserResource$ChangePasswordBody.class

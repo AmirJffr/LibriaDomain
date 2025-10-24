@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="jakarta.faces.facelets">
+<h:head>
+    <title>Libria - Catalogue</title>
+</h:head>
+
+<h:body style="max-width:900px;margin:auto;padding-top:2rem;">
+    <ui:include src="/layout/navbar.xhtml"/>
+
+    <h:form id="pageForm">
+        <h2 style="text-align:center;margin-bottom:1.5rem;">📚 Catalogue Libria</h2>
+
+        <p:toolbar style="margin-bottom:1rem;">
+            <p:toolbarGroup>
+                <p:inputText value="#{libraryBean.queryTitle}" placeholder="Rechercher par titre…" style="width:250px;"/>
+                <p:commandButton value="Rechercher" action="#{libraryBean.search}" update=":pageForm:tbl :pageForm:msgs" styleClass="ui-button-primary"/>
+                <p:commandButton value="Tout afficher" action="#{libraryBean.load}" update=":pageForm:tbl :pageForm:msgs" styleClass="ui-button-secondary"/>
+            </p:toolbarGroup>
+
+            <p:toolbarGroup align="right">
+                <p:commandButton value="Se déconnecter" action="#{loginBean.logout}" styleClass="ui-button-danger"/>
+            </p:toolbarGroup>
+        </p:toolbar>
+
+        <p:messages id="msgs" closable="true"/>
+
+        <p:dataTable id="tbl" value="#{libraryBean.books}" var="b"
+                     rows="10" paginator="true" paginatorPosition="bottom" style="width:100%;">
+            <p:column headerText="ISBN" style="width:120px;">#{b.isbn}</p:column>
+            <p:column headerText="Titre">#{b.title}</p:column>
+            <p:column headerText="Auteur" style="width:150px;">#{b.author}</p:column>
+            <p:column headerText="Année" style="width:80px;text-align:center;">#{b.year}</p:column>
+            <p:column headerText="Genre" style="width:120px;">#{b.genre}</p:column>
+            <p:column headerText="Disponibilité" style="width:130px;text-align:center;">
+                <h:outputText value="#{b.available ? 'Disponible' : 'Indisponible'}"
+                              style="color:#{b.available ? 'green' : 'red'};font-weight:bold;"/>
+            </p:column>
+            <p:column headerText="Action" style="width:160px;text-align:center;">
+                <p:commandButton value="Télécharger"
+                                 actionListener="#{userBean.download(b.isbn)}"
+                                 update=":pageForm:msgs :pageForm:tbl"
+                                 disabled="#{!b.available}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+</html>
