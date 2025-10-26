@@ -27,7 +27,7 @@ class AdminTest {
     void setUp() {
         library = new Library();
         admin = new Admin("A001", "Zakaria", "zakaria@libria.com", "1234");
-        book1 = new Book("978-0-7475-3269-9", "Harry Potter", "J.K. Rowling", 1997, "Fantasy", true);
+        book1 = new Book("978-0-7475-3269-9", "Harry Potter", "J.K. Rowling", 1997, "Fantasy", true,"xx","xx");
     }
 
     @Test

@@ -7,6 +7,8 @@ import com.libria.exception.AccessDeniedException;
 import com.libria.exception.BookAlreadyExistException;
 import com.libria.exception.BookNotFoundException;
 
+
+import com.libria.exception.pdfBookMissingException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -28,20 +30,56 @@ public class AdminResource {
         return new Admin("sys", "System", "sys@libria", "secret");
     }
 
+    //il faut valider un livre avant de le créer car en param des api on recoi des book vide
+    private void validateBook(Book book) {
+        if (book.getIsbn() == null || book.getIsbn().isBlank())
+            throw new IllegalArgumentException("ISBN est obligatoire.");
+        if (book.getTitle() == null || book.getTitle().isBlank())
+            throw new IllegalArgumentException("Le titre est obligatoire.");
+        if (book.getAuthor() == null || book.getAuthor().isBlank())
+            throw new IllegalArgumentException("L'auteur est obligatoire.");
+        if (book.getYear() <= 0)
+            throw new IllegalArgumentException("L'année doit être positive.");
+        if (book.getPdf() == null || book.getPdf().isBlank())
+            throw new pdfBookMissingException("Le fichier PDF est obligatoire.");
+    }
+
+
+
     @POST
     @Path("/books")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response addBook(Book book) {
         try {
+            // 1. on vérifie que le JSON reçu est un vrai livre valide
+            System.out.println("📘 JSON reçu → " + book);
+            validateBook(book);
+            // 2. on essaie de l'ajouter dans la librairie via l'admin système
             sysAdmin().addBookToLibrary(lib(), book);
-            return Response.status(Response.Status.CREATED).entity(book).build();
+
+            // 3. succès → 201
+            return Response.status(Response.Status.CREATED)
+                    .entity(book)
+                    .build();
+
         } catch (BookAlreadyExistException e) {
-            return Response.status(Response.Status.CONFLICT)
+            // même ISBN déjà existant
+            return Response.status(Response.Status.CONFLICT) // 409
                     .type(MediaType.TEXT_PLAIN)
                     .entity(e.getMessage())
                     .build();
-        } catch (AccessDeniedException | IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
+
+        } catch (pdfBookMissingException e) {
+            // PDF manquant = spécifique
+            return Response.status(Response.Status.BAD_REQUEST) // 400
+                    .type(MediaType.TEXT_PLAIN)
+                    .entity(e.getMessage())
+                    .build();
+
+        } catch (IllegalArgumentException e) {
+            // champs manquants / invalides
+            return Response.status(Response.Status.BAD_REQUEST) // 400
                     .type(MediaType.TEXT_PLAIN)
                     .entity(e.getMessage())
                     .build();

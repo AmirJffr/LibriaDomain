@@ -1,6 +1,5 @@
 package com.libria.domain;
 
-import com.libria.domain.Book;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +11,16 @@ class BookTest {
 
     @BeforeEach
     void setUp() {
-        book = new Book("978-0-7475-3269-9", "Harry Potter", "J.K. Rowling", 1997, "Fantasy", true);
+        book = new Book(
+                "978-0-7475-3269-9",
+                "Harry Potter",
+                "J.K. Rowling",
+                1997,
+                "Fantasy",
+                true,
+                "/covers/hp1.jpg",
+                "/pdf/hp1.pdf"
+        );
     }
 
     @Test
@@ -83,20 +91,61 @@ class BookTest {
     }
 
     @Test
+    void coverImage_shouldBeStoredAndMutable() {
+        assertEquals("/covers/hp1.jpg", book.getCoverImage());
+        book.setCoverImage("/covers/new.jpg");
+        assertEquals("/covers/new.jpg", book.getCoverImage());
+    }
+
+    @Test
+    void pdf_shouldBeStoredAndMutable() {
+        assertEquals("/pdf/hp1.pdf", book.getPdf());
+        book.setPdf("/pdf/new.pdf");
+        assertEquals("/pdf/new.pdf", book.getPdf());
+    }
+
+    @Test
     void testEquals_shouldReturnTrueForSameIsbn() {
-        Book same = new Book("978-0-7475-3269-9", "Other Title", "Someone", 2001, "Drama", true);
+        Book same = new Book(
+                "978-0-7475-3269-9",
+                "Some other title",
+                "Whoever",
+                2001,
+                "Drama",
+                false,
+                "/covers/other.jpg",
+                "/pdf/other.pdf"
+        );
         assertEquals(book, same);
     }
 
     @Test
     void testEquals_shouldReturnFalseForDifferentIsbn() {
-        Book different = new Book("111-111", "Other", "Other", 2000, "Other", true);
+        Book different = new Book(
+                "111-111",
+                "Other",
+                "Other",
+                2000,
+                "Other",
+                true,
+                "/covers/x.jpg",
+                "/pdf/x.pdf"
+        );
         assertNotEquals(book, different);
     }
 
     @Test
     void testHashCode_shouldBeEqualForSameIsbn() {
-        Book same = new Book("978-0-7475-3269-9", "Other Title", "Someone", 2001, "Drama", true);
+        Book same = new Book(
+                "978-0-7475-3269-9",
+                "Another title",
+                "Another Author",
+                2010,
+                "Something",
+                true,
+                "/covers/y.jpg",
+                "/pdf/y.pdf"
+        );
         assertEquals(book.hashCode(), same.hashCode());
     }
 
@@ -105,5 +154,6 @@ class BookTest {
         String result = book.toString();
         assertTrue(result.contains("Harry Potter"));
         assertTrue(result.contains("J.K. Rowling"));
+        assertTrue(result.contains("available=true"));
     }
 }

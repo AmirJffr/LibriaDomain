@@ -16,6 +16,7 @@ import java.util.Map;
 public class LibraryBean implements Serializable {
     private List<Map<String,Object>> books;
     private String queryTitle;
+    private String queryGenre;
 
     @Inject
     LibriaWebAppService service;
@@ -45,4 +46,11 @@ public class LibraryBean implements Serializable {
     public List<Map<String, Object>> getBooks() { return books; }
     public String getQueryTitle() { return queryTitle; }
     public void setQueryTitle(String queryTitle) { this.queryTitle = queryTitle; }
+    public String getQueryGenre() {
+        return queryGenre;
+    }
+
+    public void setQueryGenre(String queryGenre) {
+        this.queryGenre = queryGenre;
+    }
 }

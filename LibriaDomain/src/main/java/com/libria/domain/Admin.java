@@ -68,6 +68,12 @@ public class Admin extends User {
         if (updated.getYear() > 0) {
             existing.setYear(updated.getYear());
         }
+        if (updated.getPdf() != null && !updated.getPdf().isBlank()) {
+            existing.setPdf(updated.getPdf());
+        }
+        if (updated.getCoverImage() != null && !updated.getCoverImage().isBlank()) {
+            existing.setCoverImage(updated.getCoverImage());
+        }
 
         if (updated.isAvailable() != existing.isAvailable()) {
             if (updated.isAvailable()) {

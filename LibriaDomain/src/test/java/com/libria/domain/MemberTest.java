@@ -18,8 +18,8 @@ class MemberTest {
     @BeforeEach
     void setUp() {
         member = new Member("M001", "Amir", "amir@libria.com", "abcd");
-        book1 = new Book("ISBN-1", "Harry Potter", "J.K. Rowling", 1997, "Fantasy", true);
-        book2 = new Book("ISBN-2", "The Lord of the Rings", "J.R.R. Tolkien", 1954, "Fantasy", true);
+        book1 = new Book("ISBN-1", "Harry Potter", "J.K. Rowling", 1997, "Fantasy", true,"xx","xx");
+        book2 = new Book("ISBN-2", "The Lord of the Rings", "J.R.R. Tolkien", 1954, "Fantasy", true,"xx","xx");
     }
 
     @Test

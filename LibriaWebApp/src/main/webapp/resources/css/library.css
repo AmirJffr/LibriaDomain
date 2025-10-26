@@ -1,0 +1,346 @@
+/* fond général */
+.page-bg {
+    background-color: #f8f9ff;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+    color: #1a1a1a;
+}
+
+/* top bar */
+.topbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    gap: 16px;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* brand */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+}
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #0b0b16;
+    color: #fff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+.site-title {
+    font-size: 15px;
+}
+
+/* nav */
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #1a1a1a;
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+.nav-item i {
+    font-size: 14px;
+}
+.nav-item.nav-active {
+    background-color: #0b0b16;
+    border-color: #0b0b16;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* user zone */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #1a1a1a;
+}
+.logout-form {
+    margin: 0;
+}
+.logout-btn {
+    background-color: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 8px !important;
+    color: #1a1a1a !important;
+    font-size: 14px !important;
+    padding: 8px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+.logout-btn i {
+    margin-right: 6px;
+}
+
+/* main content container */
+.content {
+    max-width: 1280px;
+    margin: 24px auto;
+    padding: 0 24px 48px;
+}
+
+/* header text */
+.page-header {
+    margin-bottom: 16px;
+}
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 4px 0;
+}
+.page-subtitle {
+    font-size: 0.95rem;
+    color: #6b6b75;
+    margin: 0;
+}
+
+/* search / filter row */
+.filters-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.search-form {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-box {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+    background-color: #f4f5f8;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding-left: 36px;
+    height: 44px;
+}
+.search-ico {
+    position: absolute;
+    left: 12px;
+    font-size: 14px;
+    color: #6b6b75;
+}
+.search-input {
+    border: 0 !important;
+    background: transparent !important;
+    width: 100% !important;
+    font-size: 14px !important;
+    color: #1a1a1a !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.category-dropdown {
+    min-width: 220px;
+}
+.category-select {
+    width: 100% !important;
+    border-radius: 8px !important;
+}
+
+/* hide default button from search form because we trigger with commandButton */
+.hidden-submit {
+    display: none;
+}
+
+/* primefaces messages block */
+.msgs-block {
+    margin-bottom: 24px;
+}
+
+/* grid of books */
+.books-grid-wrapper {
+    width: 100%;
+}
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+    gap: 24px;
+}
+
+/* book card */
+.book-card {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* cover image */
+.book-cover {
+    width: 100%;
+    height: 180px;
+    background-color: #f0f1f5;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.cover-placeholder {
+    color: #6b6b75;
+    font-size: 32px;
+}
+
+/* info */
+.book-info {
+    padding: 16px;
+}
+.book-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 8px;
+}
+.book-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    flex: 1;
+}
+.book-tag {
+    background-color: #f4f5f8;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1a1a1a;
+    padding: 4px 8px;
+    white-space: nowrap;
+}
+
+.book-author {
+    font-size: 0.9rem;
+    color: #4a4a55;
+    margin-top: 4px;
+}
+
+.book-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    color: #4a4a55;
+}
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.star {
+    color: #f5c146;
+    font-size: 0.9rem;
+}
+.dot-sep {
+    color: #a0a0ad;
+}
+
+/* actions */
+.book-actions {
+    padding: 16px;
+    border-top: 1px solid #e5e7eb;
+    margin-top: auto;
+}
+.actions-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.action-btn {
+    border-radius: 8px !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    padding: 10px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    border: 1px solid transparent !important;
+}
+.light-btn {
+    background-color: #fff !important;
+    border-color: #d1d5db !important;
+    color: #1a1a1a !important;
+}
+.dark-btn {
+    background-color: #0b0b16 !important;
+    color: #fff !important;
+    border-color: #0b0b16 !important;
+}
+.dark-btn[disabled],
+.dark-btn[disabled="disabled"] {
+    background-color: #9ca3af !important;
+    border-color: #9ca3af !important;
+    cursor: not-allowed !important;
+}
+.brand-icon-img {
+    width: 40px;
+    height: 40px;
+    background-color: #0b0b16;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.brand-icon-img img {
+    max-width: 24px;
+    max-height: 24px;
+    filter: invert(1); /* rend blanc si ton logo est noir */
+}

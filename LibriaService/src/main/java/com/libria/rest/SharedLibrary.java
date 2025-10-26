@@ -12,23 +12,38 @@ final class SharedLibrary {
 
         try {
             // 📚 Livres Techniques
-            admin.addBookToLibrary(lib, new Book("9780132350884", "Clean Code", "Robert C. Martin", 2008, "Programming", true));
-            admin.addBookToLibrary(lib, new Book("9780134685991", "Effective Java", "Joshua Bloch", 2018, "Programming", true));
-            admin.addBookToLibrary(lib, new Book("9780201616224", "The Pragmatic Programmer", "Andrew Hunt", 1999, "Programming", true));
-            admin.addBookToLibrary(lib, new Book("9781492078005", "Designing Data-Intensive Applications", "Martin Kleppmann", 2017, "Architecture", true));
-            admin.addBookToLibrary(lib, new Book("9780134494166", "Refactoring", "Martin Fowler", 2018, "Software Engineering", true));
+            admin.addBookToLibrary(lib, new Book("9780132350884", "Clean Code", "Robert C. Martin", 2008, "Programming", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
+            admin.addBookToLibrary(lib, new Book("9780134685991", "Effective Java", "Joshua Bloch", 2018, "Programming", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
+            admin.addBookToLibrary(lib, new Book("9780201616224", "The Pragmatic Programmer", "Andrew Hunt", 1999, "Programming", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
+            admin.addBookToLibrary(lib, new Book("9781492078005", "Designing Data-Intensive Applications", "Martin Kleppmann", 2017, "Architecture", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
+            admin.addBookToLibrary(lib, new Book("9780134494166", "Refactoring", "Martin Fowler", 2018, "Software Engineering", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
 
             // 📘 Romans
-            admin.addBookToLibrary(lib, new Book("9782070464090", "L'Étranger", "Albert Camus", 1942, "Roman", true));
-            admin.addBookToLibrary(lib, new Book("9782253004226", "Le Petit Prince", "Antoine de Saint-Exupéry", 1943, "Conte", true));
-            admin.addBookToLibrary(lib, new Book("9782070368220", "Les Misérables", "Victor Hugo", 1862, "Roman", true));
+            admin.addBookToLibrary(lib, new Book("9782070464090", "L'Étranger", "Albert Camus", 1942, "Roman", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
+            admin.addBookToLibrary(lib, new Book("9782253004226", "Le Petit Prince", "Antoine de Saint-Exupéry", 1943, "Conte", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
+            admin.addBookToLibrary(lib, new Book("9782070368220", "Les Misérables", "Victor Hugo", 1862, "Roman", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
 
             // 📗 Science-fiction / Fantasy
-            admin.addBookToLibrary(lib, new Book("9780553283686", "Dune", "Frank Herbert", 1965, "Science Fiction", true));
-            admin.addBookToLibrary(lib, new Book("9780345339706", "The Hobbit", "J.R.R. Tolkien", 1937, "Fantasy", true));
-            admin.addBookToLibrary(lib, new Book("9780553103540", "A Game of Thrones", "George R.R. Martin", 1996, "Fantasy", true));
-            admin.addBookToLibrary(lib, new Book("9780451524935", "1984", "George Orwell", 1949, "Dystopie", true));
-            admin.addBookToLibrary(lib, new Book("9780060850524", "Fahrenheit 451", "Ray Bradbury", 1953, "Dystopie", true));
+            admin.addBookToLibrary(lib, new Book("9780553283686", "Dune", "Frank Herbert", 1965, "Science Fiction", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
+            admin.addBookToLibrary(lib, new Book("9780345339706", "The Hobbit", "J.R.R. Tolkien", 1937, "Fantasy", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
+            admin.addBookToLibrary(lib, new Book("9780553103540", "A Game of Thrones", "George R.R. Martin", 1996, "Fantasy", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
+
+            admin.addBookToLibrary(lib, new Book("9780451524935", "1984", "George Orwell", 1949, "Dystopie", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
+
+            admin.addBookToLibrary(lib, new Book("9780060850524", "Fahrenheit 451", "Ray Bradbury", 1953, "Dystopie", true,"resources/cover/cover-exemple.png",
+                    "resources/pdf/pdf-exemple.pdf"));
 
             // 👥 Utilisateurs (membres)
             Member zakaria = new Member("MB01", "Zakaria Charouite", "zakaria@libria.com", "zack123");
