@@ -40,10 +40,10 @@
 
                 <!-- visible si role == ADMIN -->
                 <ui:fragment rendered="#{loginBean.role eq 'ADMIN'}">
-                    <a class="nav-item">
+                    <h:link outcome="admin-add-book" styleClass="nav-item add-btn">
                         <i class="fa-solid fa-plus"></i>
-                        <span>Ajouter</span>
-                    </a>
+                        <span>Ajouter un livre</span>
+                    </h:link>
                 </ui:fragment>
             </nav>
         </div>
@@ -64,7 +64,6 @@
             </h:form>
         </div>
     </header>
-
 
     <!-- CONTENU PRINCIPAL -->
     <main class="content">
@@ -98,7 +97,9 @@
                     <p:selectOneMenu>
                         <f:selectItem itemLabel="Toutes les catégories" itemValue=""/>
                         <f:selectItem itemLabel="Fantasy" itemValue="Fantasy"/>
-                        <f:selectItem itemLabel="Classique" itemValue="Classique"/>
+                        <f:selectItem itemLabel="Roman" itemValue="Roman"/>
+                        <f:selectItem itemLabel="Science Fiction" itemValue="Science Fiction"/>
+                        <f:selectItem itemLabel="Programming" itemValue="Programming"/>
                     </p:selectOneMenu>
                 </div>
             </h:form>
@@ -115,10 +116,12 @@
 
                         <!-- Couverture -->
                         <div class="book-cover">
-                            <ui:fragment rendered="#{not empty b.coverPath}">
-                                <img src="#{b.coverPath}" alt="#{b.title} cover"/>
+                            <ui:fragment rendered="#{not empty b.coverImage}">
+                                <img src="#{b.coverImage}"
+                                     alt="#{b.title} cover"/>
                             </ui:fragment>
-                            <ui:fragment rendered="#{empty b.coverPath}">
+
+                            <ui:fragment rendered="#{empty b.coverImage}">
                                 <div class="cover-placeholder">
                                     <i class="fa-solid fa-book"></i>
                                 </div>
@@ -149,11 +152,15 @@
                         <!-- Actions -->
                         <div class="book-actions">
                             <div class="actions-row">
+
+                                <!-- Voir fiche -->
                                 <p:commandButton type="button"
                                                  value="Voir"
                                                  icon="pi pi-eye"
                                                  styleClass="action-btn light-btn"
                                                  onclick="window.location = 'book.xhtml?isbn=#{b.isbn}'"/>
+
+                                <!-- Télécharger -->
                                 <p:commandButton value="Télécharger"
                                                  icon="pi pi-download"
                                                  styleClass="action-btn dark-btn"
@@ -161,6 +168,17 @@
                                                  disabled="#{!b.available}"
                                                  actionListener="#{userBean.download(b.isbn)}"/>
                             </div>
+
+                            <!-- lien PDF direct si dispo -->
+                            <ui:fragment rendered="#{not empty b.pdf}">
+                                <a class="pdf-link"
+                                   href="#{b.pdf}"
+                                   target="_blank">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                    <span>Ouvrir le PDF</span>
+                                </a>
+                            </ui:fragment>
+
                         </div>
 
                     </div>

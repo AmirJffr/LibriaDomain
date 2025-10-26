@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="jakarta.faces.facelets">
+
+<h:head>
+    <title>Libria — Bibliothèque</title>
+    <h:outputStylesheet name="css/library.css"/>
+    <h:outputStylesheet name="css/style.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</h:head>
+
+<h:body class="page-bg">
+
+    <!-- NAVBAR -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <div class="brand">
+                <div class="brand-icon-img">
+                    <h:graphicImage library="images" name="logo.png" alt="Logo Libria" />
+                </div>
+                <div class="brand-text">
+                    <div class="site-title">Librairie en Ligne</div>
+                </div>
+            </div>
+
+            <nav class="main-nav">
+                <a class="nav-item nav-active">
+                    <i class="fa-solid fa-book"></i>
+                    <span>Bibliothèque</span>
+                </a>
+
+                <h:link outcome="downloads" styleClass="nav-item">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Mes téléchargements</span>
+                </h:link>
+
+                <!-- visible si role == ADMIN -->
+                <ui:fragment rendered="#{loginBean.role eq 'ADMIN'}">
+                    <h:link outcome="admin-add-book" styleClass="nav-item add-btn">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Ajouter un livre</span>
+                    </h:link>
+                </ui:fragment>
+            </nav>
+        </div>
+
+        <div class="topbar-right">
+            <div class="user-chip">
+                <i class="fa-regular fa-user"></i>
+                <span>#{loginBean.userId}</span>
+            </div>
+
+            <h:form styleClass="logout-form">
+                <p:commandButton value="Déconnexion"
+                                 action="#{loginBean.logout}"
+                                 ajax="false"
+                                 styleClass="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </p:commandButton>
+            </h:form>
+        </div>
+    </header>
+
+    <!-- CONTENU PRINCIPAL -->
+    <main class="content">
+
+        <!-- Titre + sous-titre -->
+        <section class="page-header">
+            <div class="page-header-texts">
+                <h1 class="page-title">Découvrez notre collection</h1>
+                <p class="page-subtitle">
+                    Explorez #{libraryBean.books.size()} livres disponibles en téléchargement
+                </p>
+            </div>
+        </section>
+
+        <!-- Barre de recherche / filtre -->
+        <section class="filters-row">
+            <h:form id="searchForm" styleClass="search-form">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-ico"></i>
+                    <p:inputText value="#{libraryBean.queryTitle}"
+                                 placeholder="Rechercher par titre ou auteur..."
+                                 styleClass="search-input"/>
+                </div>
+
+                <p:commandButton value="Go"
+                                 action="#{libraryBean.search}"
+                                 update="booksGrid msgs"
+                                 styleClass="hidden-submit"/>
+
+                <div class="category-dropdown">
+                    <p:selectOneMenu>
+                        <f:selectItem itemLabel="Toutes les catégories" itemValue=""/>
+                        <f:selectItem itemLabel="Fantasy" itemValue="Fantasy"/>
+                        <f:selectItem itemLabel="Roman" itemValue="Roman"/>
+                        <f:selectItem itemLabel="Science Fiction" itemValue="Science Fiction"/>
+                        <f:selectItem itemLabel="Programming" itemValue="Programming"/>
+                    </p:selectOneMenu>
+                </div>
+            </h:form>
+        </section>
+
+        <!-- messages (succès téléchargement etc.) -->
+        <p:messages id="msgs" closable="true" styleClass="msgs-block"/>
+
+        <!-- GRID DE LIVRES -->
+        <section class="books-grid-wrapper">
+            <div id="booksGrid" class="books-grid">
+                <ui:repeat value="#{libraryBean.books}" var="b">
+                    <div class="book-card">
+
+                        <!-- Couverture -->
+                        <div class="book-cover">
+                            <ui:fragment rendered="#{not empty b.coverImage}">
+                                <img src="#{b.coverImage}"
+                                     alt="#{b.title} cover"/>
+                            </ui:fragment>
+
+                            <ui:fragment rendered="#{empty b.coverImage}">
+                                <div class="cover-placeholder">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                            </ui:fragment>
+                        </div>
+
+                        <!-- Infos livre -->
+                        <div class="book-info">
+                            <div class="book-header-row">
+                                <div class="book-title">#{b.title}</div>
+                                <span class="book-tag">#{b.genre}</span>
+                            </div>
+
+                            <div class="book-author">#{b.author}</div>
+
+                            <div class="book-meta-row">
+                                <div class="meta-item">
+                                    <i class="fa-solid fa-star star"></i>
+                                    <span class="meta-text">4.7</span>
+                                </div>
+                                <div class="dot-sep">•</div>
+                                <div class="meta-item">
+                                    <span class="meta-text">#{b.year}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="book-actions">
+                            <div class="actions-row">
+
+                                <!-- Voir fiche -->
+                                <p:commandButton type="button"
+                                                 value="Voir"
+                                                 icon="pi pi-eye"
+                                                 styleClass="action-btn light-btn"
+                                                 onclick="window.location = 'book.xhtml?isbn=#{b.isbn}'"/>
+
+                                <!-- Télécharger -->
+                                <p:commandButton value="Télécharger"
+                                                 icon="pi pi-download"
+                                                 styleClass="action-btn dark-btn"
+                                                 update=":msgs"
+                                                 disabled="#{!b.available}"
+                                                 actionListener="#{userBean.download(b.isbn)}"/>
+                            </div>
+
+                            <!-- lien PDF direct si dispo -->
+                            <ui:fragment rendered="#{not empty b.pdf}">
+                                <a class="pdf-link"
+                                   href="#{b.pdf}"
+                                   target="_blank">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                    <span>Ouvrir le PDF</span>
+                                </a>
+                            </ui:fragment>
+
+                        </div>
+
+                    </div>
+                </ui:repeat>
+            </div>
+        </section>
+    </main>
+
+</h:body>
+</html>

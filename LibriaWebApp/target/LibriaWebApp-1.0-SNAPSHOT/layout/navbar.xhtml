@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="jakarta.faces.facelets">
+<ui:composition>
+    <div class="navbar">
+        <div class="left">
+            <h:link outcome="library" styleClass="brand">Libria</h:link>
+            <h:link outcome="library" value="Catalogue" styleClass="navlink"/>
+            <h:link outcome="downloads" value="Mes téléchargements" styleClass="navlink"/>
+        </div>
+        <div class="right">
+            <h:form>
+                <span class="user-badge">
+                    <i class="pi pi-user mr-1"></i>
+                    #{loginBean.userId}
+                </span>
+                <p:commandButton value="Déconnexion" action="#{loginBean.logout}" ajax="false" styleClass="ml-2"/>
+            </h:form>
+        </div>
+    </div>
+</ui:composition>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<f:metadata>
+    <f:viewParam name="isbn" value="#{bookBean.isbn}"/>
+    <f:event type="preRenderView" listener="#{bookBean.load}"/>
+</f:metadata>
+
+<h:head>
+    <title>Libria — Livre</title>
+    <h:outputStylesheet library="css" name="styles.css"/>
+</h:head>
+<h:body class="page">
+    <ui:include src="/layout/navbar.xhtml"/>
+
+    <div class="container">
+        <h2>Détails du livre</h2>
+
+        <p:panel rendered="#{not empty bookBean.book}">
+            <div class="book-details">
+                <div>
+                    <div class="title">#{bookBean.book.title}</div>
+                    <div class="meta">#{bookBean.book.author} • #{bookBean.book.year}</div>
+                    <div class="meta"><span class="tag">#{bookBean.book.genre}</span></div>
+                    <div class="meta">ISBN: #{bookBean.book.isbn}</div>
+                    <div class="meta">Disponibilité: #{bookBean.book.available ? 'Disponible' : 'Indisponible'}</div>
+                </div>
+                <h:form>
+                    <p:messages/>
+                    <p:commandButton value="Télécharger"
+                                     icon="pi pi-download"
+                                     actionListener="#{bookBean.download}"
+                                     update="@form"
+                                     disabled="#{!bookBean.book.available}"/>
+                </h:form>
+            </div>
+        </p:panel>
+
+        <p:panel rendered="#{empty bookBean.book}">
+            <p:messages/>
+            <p>Livre introuvable.</p>
+        </p:panel>
+    </div>
+</h:body>
+</html>
