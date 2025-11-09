@@ -3,6 +3,7 @@ package com.libria.domain;
 import com.libria.exception.BookAlreadyExistException;
 import com.libria.exception.BookNotFoundException;
 import com.libria.exception.UserAlreadyExistException;
+import com.libria.exception.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -177,12 +178,12 @@ class LibraryTest {
     }
 
     @Test
-    void getUser_and_listUsers_shouldWorkAndBeDefensive() throws Exception {
+    void getUser_and_listUsers_shouldWorkAndBeDefensive() throws Exception, UserNotFoundException {
         library.registerUser(admin);
         library.registerUser(member);
 
         assertEquals(member, library.getUser("M001"));
-        assertNull(library.getUser("NOPE"));
+        assertThrows(UserNotFoundException.class, () -> library.getUser("NOPE"));
 
         List<User> usersCopy = library.listUsers();
         assertEquals(2, usersCopy.size());

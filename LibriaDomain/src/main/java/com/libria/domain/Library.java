@@ -39,12 +39,34 @@ public class Library {
         catalogByIsbn.remove(isbn);
     }
 
+    public void removeUser(String userId) throws UserNotFoundException {
+        if (userId == null || userId.isBlank()) {
+            throw new IllegalArgumentException("ID utilisateur invalide.");
+        }
+        // Vérifie si l'utilisateur existe
+        if (!usersById.containsKey(userId)) {
+            throw new UserNotFoundException("Utilisateur introuvable : " + userId);
+        }
+        // Supprime l'utilisateur de la collection
+        usersById.remove(userId);
+    }
+
     boolean containsBook(String isbn) {
         return catalogByIsbn.containsKey(isbn);
     }
 
-    public Book getBook(String isbn) {
-        return catalogByIsbn.get(isbn);
+    public Book getBook(String isbn) throws BookNotFoundException {
+        if (isbn == null || isbn.isBlank()) {
+            throw new IllegalArgumentException("ISBN invalide.");
+        }
+
+        Book book = catalogByIsbn.get(isbn);
+
+        if (book == null) {
+            throw new BookNotFoundException("Aucun livre trouvé avec l’ISBN : " + isbn);
+        }
+
+        return book;
     }
 
 
@@ -83,8 +105,12 @@ public class Library {
         return new ArrayList<>(catalogByIsbn.values());
     }
 
-    public User getUser(String userId) {
-        return usersById.get(userId);
+    public User getUser(String userId) throws UserNotFoundException {
+        User user = usersById.get(userId);
+        if (user == null) {
+            throw new UserNotFoundException("Utilisateur avec l'ID " + userId + " introuvable.");
+        }
+        return user;
     }
 
     public List<User> listUsers() {

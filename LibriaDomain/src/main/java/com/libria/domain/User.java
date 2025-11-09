@@ -12,7 +12,7 @@ public abstract class User {
     private String email;
     private String password;
     private List<Book> downloadedBooks;
-
+    public User() {}
     public User(String userId, String name, String email, String password) {
         this.userId = userId;
         this.name = name;
@@ -55,7 +55,7 @@ public abstract class User {
         return downloadedBooks.contains(book);
     }
 
-
+    public void setUserId(String userId) { this.userId = userId; }
     public String getUserId() {
         return userId;
     }

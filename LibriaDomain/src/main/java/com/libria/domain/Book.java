@@ -17,8 +17,6 @@ public class Book {
 
     //il nous faut un constructeur vide, car dans le libriaService, on recup des books dans les requette HTTP, et
     //il faut pouvoir créer un book vide pour le passer en param
-
-
     public Book() {
     }
 
@@ -63,12 +61,12 @@ public class Book {
         return available;
     }
 
-    public void markAvailable() {
-        this.available = true;
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
-    public void markUnavailable() {
-        this.available = false;
+    public void setUnavailable(boolean available) {
+        this.available = available;
     }
 
     public String getTitle() {

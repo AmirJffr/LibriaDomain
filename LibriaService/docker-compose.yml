@@ -1,0 +1,13 @@
+services:
+  payara-libria-service:
+    container_name: payara-libria-service
+    image: payara/server-full:6.2025.8-jdk17
+    environment:
+      SECURE_ADMIN: "true"
+      ADMIN_USER: "admin"
+      ADMIN_PASSWORD: "admin"
+    ports:
+      - "8081:8080"   # exposé sur ta machine
+      - "4849:4848"
+    volumes:
+      - ./target/LibriaService.war:/opt/payara/appserver/glassfish/domains/domain1/autodeploy/LibriaService.war

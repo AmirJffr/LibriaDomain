@@ -1,126 +1,85 @@
 package com.libria.rest;
 
-import com.libria.domain.Admin;
-import com.libria.domain.Book;
-import com.libria.domain.Library;
-import com.libria.exception.AccessDeniedException;
-import com.libria.exception.BookAlreadyExistException;
-import com.libria.exception.BookNotFoundException;
-
-
-import com.libria.exception.pdfBookMissingException;
+import com.libria.domain.*;
+import com.libria.exception.*;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.List;
 
-/**
- * Endpoints d'admin (écriture) branchés sur la même instance que LibraryResource.
- * On suppose que tu as une classe SharedLibrary avec un champ public static final Library LIB.
- */
 @Path("/admin")
 @Produces(MediaType.APPLICATION_JSON)
 public class AdminResource {
 
-    private static com.libria.domain.Library lib() {
-        return SharedLibrary.INSTANCE; // ✅ utilise ton état partagé existant
-    }
+    @Inject
+    private ApplicationState state;
 
-    // Admin “système” minimal pour déléguer au domaine
-    private static Admin sysAdmin() {
-        return new Admin("sys", "System", "sys@libria", "secret");
-    }
-
-    //il faut valider un livre avant de le créer car en param des api on recoi des book vide
     private void validateBook(Book book) {
+        if (book == null)
+            throw new IllegalArgumentException("Livre non fourni.");
         if (book.getIsbn() == null || book.getIsbn().isBlank())
-            throw new IllegalArgumentException("ISBN est obligatoire.");
+            throw new IllegalArgumentException("ISBN obligatoire.");
         if (book.getTitle() == null || book.getTitle().isBlank())
-            throw new IllegalArgumentException("Le titre est obligatoire.");
+            throw new IllegalArgumentException("Titre obligatoire.");
         if (book.getAuthor() == null || book.getAuthor().isBlank())
-            throw new IllegalArgumentException("L'auteur est obligatoire.");
-        if (book.getYear() <= 0)
-            throw new IllegalArgumentException("L'année doit être positive.");
+            throw new IllegalArgumentException("Auteur obligatoire.");
         if (book.getPdf() == null || book.getPdf().isBlank())
-            throw new pdfBookMissingException("Le fichier PDF est obligatoire.");
+            throw new pdfBookMissingException("PDF obligatoire.");
     }
 
-
+    @GET
+    @Path("/users")
+    public List<User> listUsers() {
+        return state.getLibrary().listUsers();
+    }
 
     @POST
-    @Path("/books")
+    @Path("/books/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addBook(Book book) {
+    public Response addBook(@PathParam("userId") String userId, Book book) {
         try {
-            // 1. on vérifie que le JSON reçu est un vrai livre valide
-            System.out.println("📘 JSON reçu → " + book);
             validateBook(book);
-            // 2. on essaie de l'ajouter dans la librairie via l'admin système
-            sysAdmin().addBookToLibrary(lib(), book);
+            state.addBook(userId, book);
+            return Response.status(Response.Status.CREATED).entity(book).build();
 
-            // 3. succès → 201
-            return Response.status(Response.Status.CREATED)
-                    .entity(book)
-                    .build();
+        } catch (AccessDeniedException e) {
+            return Response.status(Response.Status.FORBIDDEN).entity(e.getMessage()).build();
 
         } catch (BookAlreadyExistException e) {
-            // même ISBN déjà existant
-            return Response.status(Response.Status.CONFLICT) // 409
-                    .type(MediaType.TEXT_PLAIN)
-                    .entity(e.getMessage())
-                    .build();
+            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
 
-        } catch (pdfBookMissingException e) {
-            // PDF manquant = spécifique
-            return Response.status(Response.Status.BAD_REQUEST) // 400
-                    .type(MediaType.TEXT_PLAIN)
-                    .entity(e.getMessage())
-                    .build();
-
-        } catch (IllegalArgumentException e) {
-            // champs manquants / invalides
-            return Response.status(Response.Status.BAD_REQUEST) // 400
-                    .type(MediaType.TEXT_PLAIN)
-                    .entity(e.getMessage())
-                    .build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
 
     @DELETE
-    @Path("/books/{isbn}")
-    public Response removeBook(@PathParam("isbn") String isbn) {
+    @Path("/books/{userId}/{isbn}")
+    public Response removeBook(@PathParam("userId") String userId, @PathParam("isbn") String isbn) {
         try {
-            sysAdmin().removeBookFromLibrary(lib(), isbn);
+            state.removeBook(userId, isbn);
             return Response.noContent().build();
+        } catch (AccessDeniedException e) {
+            return Response.status(Response.Status.FORBIDDEN).entity(e.getMessage()).build();
         } catch (BookNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .type(MediaType.TEXT_PLAIN)
-                    .entity(e.getMessage())
-                    .build();
-        } catch (AccessDeniedException | IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .type(MediaType.TEXT_PLAIN)
-                    .entity(e.getMessage())
-                    .build();
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
+
     @PUT
-    @Path("/books/{isbn}")
+    @Path("/books/{userId}/{isbn}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateBook(@PathParam("isbn") String isbn, Book updated) {
+    public Response updateBook(@PathParam("userId") String userId,
+                               @PathParam("isbn") String isbn,
+                               Book updated) {
         try {
-            sysAdmin().updateBookInLibrary(lib(), isbn, updated);
+            state.updateBook(userId, isbn, updated);
             return Response.noContent().build();
+        } catch (AccessDeniedException e) {
+            return Response.status(Response.Status.FORBIDDEN).entity(e.getMessage()).build();
         } catch (BookNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .type(MediaType.TEXT_PLAIN)
-                    .entity(e.getMessage())
-                    .build();
-        } catch (AccessDeniedException | IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .type(MediaType.TEXT_PLAIN)
-                    .entity(e.getMessage())
-                    .build();
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
 }

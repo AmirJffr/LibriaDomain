@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="jakarta.faces.facelets">
+
+<h:head>
+    <title>Libria — Ajouter un livre</title>
+    <h:outputStylesheet name="css/style.css"/>
+    <h:outputStylesheet name="css/addbook.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</h:head>
+
+<h:body class="page-bg">
+
+    <!-- NAVBAR réutilisée -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <div class="brand">
+                <div class="brand-text">
+                    <div class="site-title">Librairie en Ligne</div>
+                </div>
+            </div>
+
+            <nav class="main-nav">
+                <h:link outcome="library" styleClass="nav-item">
+                    <i class="fa-solid fa-book"></i>
+                    <span>Bibliothèque</span>
+                </h:link>
+
+                <h:link outcome="downloads" styleClass="nav-item">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Mes téléchargements</span>
+                </h:link>
+
+                <a class="nav-item nav-active">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Ajouter</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="topbar-right">
+            <div class="user-chip">
+                <i class="fa-regular fa-user"></i>
+                <span>#{loginBean.userId}</span>
+                <ui:fragment rendered="#{loginBean.role eq 'ADMIN'}">
+                    <span class="role-badge">Admin</span>
+                </ui:fragment>
+            </div>
+
+            <h:form styleClass="logout-form">
+                <p:commandButton value="Déconnexion"
+                                 action="#{loginBean.logout}"
+                                 ajax="false"
+                                 styleClass="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </p:commandButton>
+            </h:form>
+        </div>
+    </header>
+
+    <!-- CONTENU -->
+    <main class="content-narrow">
+        <h:form id="addForm" styleClass="add-card">
+
+            <div class="form-header">
+                <div class="title-block">
+                    <div class="form-title">Informations du livre</div>
+                    <div class="form-hint">Les champs marqués d'un * sont obligatoires</div>
+                </div>
+            </div>
+
+            <p:messages id="msgs" closable="true" styleClass="msgs-block"/>
+
+            <!-- Ligne 1 : Titre / Auteur -->
+            <div class="row-2col">
+                <div class="field-block">
+                    <label class="field-label">Titre *</label>
+                    <p:inputText value="#{addBookBean.title}"
+                                 placeholder="Le titre du livre"
+                                 required="true"
+                                 requiredMessage="Le titre est obligatoire."
+                                 styleClass="input"/>
+                </div>
+
+                <div class="field-block">
+                    <label class="field-label">Auteur *</label>
+                    <p:inputText value="#{addBookBean.author}"
+                                 placeholder="Nom de l'auteur"
+                                 required="true"
+                                 requiredMessage="L'auteur est obligatoire."
+                                 styleClass="input"/>
+                </div>
+            </div>
+
+            <!-- Ligne 2 : ISBN / Disponible -->
+            <div class="row-2col">
+                <div class="field-block">
+                    <label class="field-label">ISBN *</label>
+                    <p:inputText value="#{addBookBean.isbn}"
+                                 placeholder="978-..."
+                                 required="true"
+                                 requiredMessage="L'ISBN est obligatoire."
+                                 styleClass="input"/>
+                </div>
+
+                <div class="field-block">
+                    <label class="field-label">Disponible ?</label>
+                    <div class="available-row">
+                        <p:selectBooleanCheckbox value="#{addBookBean.available}"/>
+                        <span class="small-hint">Le livre peut être téléchargé</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ligne 3 : Genre / Année -->
+            <div class="row-2col">
+                <div class="field-block">
+                    <label class="field-label">Catégorie / Genre *</label>
+                    <p:inputText value="#{addBookBean.genre}"
+                                 placeholder="ex. Fantasy, Roman, Programmation…"
+                                 required="true"
+                                 requiredMessage="Le genre est obligatoire."
+                                 styleClass="input"/>
+                </div>
+
+                <div class="field-block">
+                    <label class="field-label">Année de publication *</label>
+                    <p:inputText value="#{addBookBean.year}"
+                                 placeholder="1999"
+                                 required="true"
+                                 requiredMessage="L'année est obligatoire."
+                                 styleClass="input"/>
+                </div>
+            </div>
+
+            <!-- Ligne 4 : URL cover / URL PDF -->
+            <div class="row-2col">
+                <div class="field-block">
+                    <label class="field-label">URL de la couverture</label>
+                    <p:inputText value="#{addBookBean.coverPath}"
+                                 placeholder="http://.../cover.png"
+                                 styleClass="input"/>
+                </div>
+
+                <div class="field-block">
+                    <label class="field-label">URL du PDF *</label>
+                    <p:inputText value="#{addBookBean.pdf}"
+                                 placeholder="http://.../livre.pdf"
+                                 required="true"
+                                 requiredMessage="L'URL PDF est obligatoire."
+                                 styleClass="input"/>
+                </div>
+            </div>
+
+            <!-- Boutons -->
+            <div class="form-footer-row">
+                <p:commandButton type="button"
+                                 value="Annuler"
+                                 styleClass="btn-cancel"
+                                 onclick="window.location='library.xhtml'">
+                    <i class="fa-solid fa-xmark"></i>
+                </p:commandButton>
+
+                <p:commandButton value="Ajouter le livre"
+                                 icon="pi pi-plus"
+                                 styleClass="btn-submit"
+                                 update="msgs"
+                                 actionListener="#{addBookBean.submit}"/>
+            </div>
+
+        </h:form>
+    </main>
+
+</h:body>
+</html>

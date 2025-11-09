@@ -339,8 +339,3 @@
     justify-content: center;
     overflow: hidden;
 }
-.brand-icon-img img {
-    max-width: 24px;
-    max-height: 24px;
-    filter: invert(1); /* rend blanc si ton logo est noir */
-}

@@ -118,4 +118,46 @@ public class LibriaWebAppService {
         if (pdfFileName == null || pdfFileName.isBlank()) return null;
         return "http://localhost:8081/LibriaService-1.0-SNAPSHOT/api/files/pdf/" + pdfFileName;
     }
+
+    public Response addBook(Map<String, Object> payload) {
+        // Appel du service REST côté LibriaService
+        try {
+            // on cible l’endpoint /admin/books de LibriaService
+            WebTarget admin = client.target(BASE).path("admin").path("books");
+
+            // on envoie la requête POST avec le JSON du livre
+            Response resp = admin
+                    .request(MediaType.APPLICATION_JSON)
+                    .post(Entity.entity(payload, MediaType.APPLICATION_JSON));
+
+            return resp; // on renvoie la réponse brute au bean JSF (addBookBean)
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Si le service est injoignable ou erreur réseau
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                    .entity("Service LibriaService injoignable : " + e.getMessage())
+                    .build();
+        }
+    }
+
+    public boolean registerUser(Map<String, Object> newUserPayload) {
+        try {
+            Response resp = client
+                    .target(BASE)
+                    .path("members/register") // ✅ correspond à ton MemberResource
+                    .request(MediaType.APPLICATION_JSON)
+                    .post(Entity.json(newUserPayload));
+
+            int status = resp.getStatus();
+            System.out.println("[WebApp] registerUser => HTTP " + status);
+
+            // 201 Created ou 200 OK = succès
+            return status == 201 || status == 200;
+
+        } catch (Exception e) {
+            System.out.println("[WebApp] registerUser ERROR: " + e.getMessage());
+            return false;
+        }
+    }
+
 }

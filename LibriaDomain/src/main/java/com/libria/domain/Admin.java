@@ -77,9 +77,9 @@ public class Admin extends User {
 
         if (updated.isAvailable() != existing.isAvailable()) {
             if (updated.isAvailable()) {
-                existing.markAvailable();
+                existing.setAvailable(true);
             } else {
-                existing.markUnavailable();
+                existing.setUnavailable(false);
             }
         }
     }
@@ -98,7 +98,7 @@ public class Admin extends User {
             throw new BookNotFoundException("Livre introuvable !");
         }
 
-        if (available) existing.markAvailable();
-        else existing.markUnavailable();
+        if (available) existing.setAvailable(true);
+        else existing.setUnavailable(false);
     }
 }

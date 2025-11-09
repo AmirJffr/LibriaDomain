@@ -1,10 +1,8 @@
 package com.libria.rest;
 
-import com.libria.domain.Book;
-import com.libria.domain.Library;
-import com.libria.domain.User;
-import com.libria.exception.BookAlreadyExistException;
-import com.libria.exception.BookNotFoundException;
+import com.libria.domain.*;
+import com.libria.exception.*;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -17,47 +15,72 @@ import java.util.Map;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-    private static Library lib() { return SharedLibrary.INSTANCE; }
+    @Inject
+    private ApplicationState state;
 
-    private static User requireUser(String userId) {
-        User u = lib().getUser(userId);
-        if (u == null) throw new WebApplicationException("Utilisateur introuvable", Response.Status.NOT_FOUND);
-        return u;
+    private User requireUser(String userId) {
+        try {
+            return state.getLibrary().getUser(userId);
+        } catch (UserNotFoundException e) {
+            throw new WebApplicationException(
+                    Response.status(Response.Status.NOT_FOUND)
+                            .entity(e.getMessage())
+                            .type(MediaType.TEXT_PLAIN)
+                            .build()
+            );
+        }
     }
 
-    // ===== Auth =====
-    public static class LoginBody { public String userId; public String password; }
+    public static class LoginBody {
+        public String userId;
+        public String password;
+    }
 
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(LoginBody body) {
-        if (body == null || body.userId == null || body.userId.isBlank()
-                || body.password == null || body.password.isBlank()) {
-            throw new WebApplicationException("Identifiants requis", Response.Status.BAD_REQUEST);
-        }
-        User u = lib().getUser(body.userId);
-        if (u == null) throw new WebApplicationException("Utilisateur introuvable", Response.Status.NOT_FOUND);
         try {
-            u.login(body.password); // lève LoginException si mauvais mdp
+            User u = state.authenticate(body.userId, body.password);
+
             return Response.ok(Map.of(
                     "userId", u.getUserId(),
-                    "name",   u.getName(),
-                    "email",  u.getEmail(),
-                    "role",   u.getRole(),
-                    "message","Login ok"
+                    "name", u.getName(),
+                    "email", u.getEmail(),
+                    "role", u.getRole(),
+                    "message", "Login ok"
             )).build();
+
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+
+        } catch (UserNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+
         } catch (LoginException e) {
-            throw new WebApplicationException(e.getMessage(), Response.Status.UNAUTHORIZED);
+            return Response.status(Response.Status.UNAUTHORIZED)
+                    .entity(e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
         }
     }
 
-    // ===== Profil =====
     @GET
     @Path("/{userId}")
     public Map<String, Object> getProfile(@PathParam("userId") String userId) {
         User u = requireUser(userId);
-        return Map.of("userId", u.getUserId(), "name", u.getName(), "email", u.getEmail(), "role", u.getRole());
+        return Map.of(
+                "userId", u.getUserId(),
+                "name", u.getName(),
+                "email", u.getEmail(),
+                "role", u.getRole()
+        );
     }
 
     public static class ChangePasswordBody { public String newPassword; }
@@ -73,7 +96,45 @@ public class UserResource {
         return Response.noContent().build();
     }
 
-    // ===== Téléchargements =====
+    @DELETE
+    @Path("/{userId}")
+    public Response deleteUser(@PathParam("userId") String userId) {
+        try {
+            Library lib = state.getLibrary();
+            User user = lib.getUser(userId);
+
+            if (user == null)
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Utilisateur introuvable")
+                        .type(MediaType.TEXT_PLAIN)
+                        .build();
+
+            lib.removeUser(userId);
+            return Response.noContent().build();
+
+        } catch (UserNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+
+        } catch (AccessDeniedException e) {
+            return Response.status(Response.Status.FORBIDDEN)
+                    .entity(e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Erreur interne : " + e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+    }
+
+
+
+
     @GET
     @Path("/{userId}/downloads")
     public List<Book> listDownloads(@PathParam("userId") String userId) {
@@ -85,32 +146,49 @@ public class UserResource {
     public Response download(@PathParam("userId") String userId,
                              @PathParam("isbn") String isbn) {
         User u = requireUser(userId);
-        Book b = lib().getBook(isbn);
-        if (b == null) throw new WebApplicationException("Livre introuvable", Response.Status.NOT_FOUND);
         try {
+            Book b = state.getLibrary().getBook(isbn); // peut lancer BookNotFoundException
             u.downloadBook(b);
             return Response.status(Response.Status.CREATED).entity(b).build();
+        } catch (BookNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
         } catch (BookAlreadyExistException e) {
-            throw new WebApplicationException(e.getMessage(), Response.Status.CONFLICT);
+            return Response.status(Response.Status.CONFLICT)
+                    .entity(e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Erreur interne : " + e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
         }
     }
 
     @DELETE
     @Path("/{userId}/downloads/{isbn}")
-    public Response removeDownload(@PathParam("userId") String userId,
-                                   @PathParam("isbn") String isbn) {
+    public Response removeDownload(@PathParam("userId") String userId,@PathParam("isbn") String isbn) {
         User u = requireUser(userId);
-        Book b = lib().getBook(isbn);
-        if (b == null) throw new WebApplicationException("Livre introuvable", Response.Status.NOT_FOUND);
         try {
+            Book b = state.getLibrary().getBook(isbn); // peut lever BookNotFoundException
             u.removeBook(b);
             return Response.noContent().build();
         } catch (BookNotFoundException e) {
-            throw new WebApplicationException(e.getMessage(), Response.Status.NOT_FOUND);
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Erreur interne : " + e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
         }
     }
 
-    // Rechercher DANS les téléchargements de l'utilisateur
     @GET
     @Path("/{userId}/downloads/search")
     public List<Book> searchDownloads(@PathParam("userId") String userId,
@@ -118,7 +196,9 @@ public class UserResource {
                                       @QueryParam("genre") String genre) {
         User u = requireUser(userId);
         var list = u.listDownloadedBooks();
-        if ((title == null || title.isBlank()) && (genre == null || genre.isBlank())) return list;
+        if ((title == null || title.isBlank()) && (genre == null || genre.isBlank()))
+            return list;
+
         return list.stream()
                 .filter(b ->
                         (title == null || title.isBlank() || b.getTitle().toLowerCase().contains(title.toLowerCase())) &&
@@ -126,10 +206,12 @@ public class UserResource {
                 )
                 .toList();
     }
+
     public static class UpdateProfileBody {
         public String name;
         public String email;
     }
+
     @PUT
     @Path("/{userId}/profile")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -153,6 +235,4 @@ public class UserResource {
                 "email", u.getEmail()
         )).build();
     }
-
-
 }

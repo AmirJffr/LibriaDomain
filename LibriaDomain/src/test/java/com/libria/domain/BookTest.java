@@ -29,15 +29,15 @@ class BookTest {
     }
 
     @Test
-    void markAvailable_shouldSetBookAvailable() {
-        book.markUnavailable();
-        book.markAvailable();
+    void setAvailable_shouldSetBookAvailable() {
+        book.setUnavailable(false);
+        book.setAvailable(true);
         assertTrue(book.isAvailable());
     }
 
     @Test
-    void markUnavailable_shouldSetBookUnavailable() {
-        book.markUnavailable();
+    void setUnavailable_shouldSetBookUnavailable() {
+        book.setUnavailable(false);
         assertFalse(book.isAvailable());
     }
 

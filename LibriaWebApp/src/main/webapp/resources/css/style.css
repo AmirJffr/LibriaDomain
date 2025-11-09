@@ -41,7 +41,26 @@ button, .ui-button {
 .page {
     padding-bottom: 40px;
 }
+/* LOGO GLOBAL (toutes pages) */
+.brand-icon-img img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;      /* garde les proportions */
+    display: block;
+    border-radius: 6px;       /* optionnel pour un rendu doux */
+}
 
+/* Pour le container du logo */
+.brand-icon-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.brand-icon-img img {
+    max-width: 24px;
+    max-height: 24px;
+    filter: invert(1); /* rend blanc si logo est noir */
+}
 .mb-2 { margin-bottom: 12px; }
 .mb-3 { margin-bottom: 18px; }
 .ml-2 { margin-left: 8px; }
