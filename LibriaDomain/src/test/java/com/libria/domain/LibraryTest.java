@@ -104,6 +104,19 @@ class LibraryTest {
     }
 
     @Test
+    void removeUser_shouldRemoveExistingAndThrowIfMissing() throws Exception {
+        var admin = new Admin("A42", "X", "x@x", "p");
+        library.registerUser(admin);
+        // suppression OK
+        assertDoesNotThrow(() -> library.removeUser("A42"));
+        // déjà supprimé -> not found
+        assertThrows(UserNotFoundException.class, () -> library.removeUser("A42"));
+        // invalide
+        assertThrows(IllegalArgumentException.class, () -> library.removeUser(null));
+        assertThrows(IllegalArgumentException.class, () -> library.removeUser("  "));
+    }
+
+    @Test
     void containsBook_shouldReturnTrueOnlyIfPresent() {
         assertFalse(library.containsBook("ISBN-1"));
 

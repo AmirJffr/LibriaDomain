@@ -24,6 +24,7 @@ class UserTest {
         book2 = new Book("ISBN-2", "The Lord of the Rings", "J.R.R. Tolkien", 1954, "Fantasy", true,"xx","xx");
     }
 
+
     @Test
     void getRole_shouldReturnMEMBER() {
         assertEquals("MEMBER", user.getRole());

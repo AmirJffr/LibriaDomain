@@ -1,5 +1,6 @@
 package com.libria.domain;
 
+import com.libria.exception.pdfBookMissingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +23,27 @@ class BookTest {
                 "/pdf/hp1.pdf"
         );
     }
+    @Test
+    void constructor_shouldThrowForInvalidParameters() {
+        assertThrows(IllegalArgumentException.class, () -> new Book(null, "Title", "Author", 2000, "Genre", true, "c", "p"));
+        assertThrows(IllegalArgumentException.class, () -> new Book("123", "", "Author", 2000, "Genre", true, "c", "p"));
+        assertThrows(IllegalArgumentException.class, () -> new Book("123", "Title", "", 2000, "Genre", true, "c", "p"));
+        assertThrows(IllegalArgumentException.class, () -> new Book("123", "Title", "Author", 0, "Genre", true, "c", "p"));
+        assertThrows(pdfBookMissingException.class, () -> new Book("123", "Title", "Author", 2000, "Genre", true, "c", ""));
+    }
+
+    @Test
+    void defaultConstructor_shouldInitializeEmptyBook() {
+        Book empty = new Book();
+        assertNull(empty.getIsbn());
+        assertNull(empty.getTitle());
+        assertNull(empty.getAuthor());
+        assertNull(empty.getGenre());
+        assertFalse(empty.isAvailable());
+        assertNull(empty.getCoverImage());
+        assertNull(empty.getPdf());
+    }
+
 
     @Test
     void isAvailable_shouldReturnTrueInitially() {

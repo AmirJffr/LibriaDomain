@@ -41,12 +41,41 @@ class AdminTest {
         assertTrue(library.listBooks().contains(book1));
     }
 
+
     @Test
     void addBookToLibrary_shouldThrowIfBookAlreadyExists() throws Exception {
         admin.addBookToLibrary(library, book1);
         assertThrows(BookAlreadyExistException.class, () -> admin.addBookToLibrary(library, book1));
     }
+    @Test
+    void updateBookInLibrary_shouldUpdateOnlyProvidedFields() throws Exception {
+        admin.addBookToLibrary(library, book1);
+        Book updated = new Book(book1.getIsbn(), "Harry Potter Updated", "New Author", 2000, "Adventure", true, "newCover", "newPdf");
 
+        admin.updateBookInLibrary(library, book1.getIsbn(), updated);
+
+        Book found = library.getBook(book1.getIsbn());
+        assertEquals("Harry Potter Updated", found.getTitle());
+        assertEquals("New Author", found.getAuthor());
+        assertEquals("Adventure", found.getGenre());
+        assertEquals(2000, found.getYear());
+        assertEquals("newCover", found.getCoverImage());
+        assertEquals("newPdf", found.getPdf());
+    }
+
+    @Test
+    void updateBookInLibrary_shouldThrowIfBookNotFound() {
+        assertThrows(BookNotFoundException.class, () -> admin.updateBookInLibrary(library, "INVALID_ISBN", book1));
+    }
+    @Test
+    void updateBookInLibrary_shouldDenyWhenNotAdmin() throws Exception {
+        Admin fake = new FakeAdmin("F003", "Fake3", "fake3@libria.com", "pwd");
+        admin.addBookToLibrary(library, book1);
+        Book updated = new Book(book1.getIsbn(), "HP", "X", 2000, "New", true, "xx", "xx");
+
+        assertThrows(AccessDeniedException.class,
+                () -> fake.updateBookInLibrary(library, book1.getIsbn(), updated));
+    }
     @Test
     void addBookToLibrary_shouldDenyWhenNotAdmin() {
         Admin fake = new FakeAdmin("F001", "Fake", "fake@libria.com", "pwd");
@@ -58,7 +87,21 @@ class AdminTest {
         assertThrows(IllegalArgumentException.class, () -> admin.addBookToLibrary(null, book1));
         assertThrows(IllegalArgumentException.class, () -> admin.addBookToLibrary(library, null));
     }
+    @Test
+    void setBookAvailability_shouldSetUnavailable() throws Exception {
+        admin.addBookToLibrary(library, book1);
+        admin.setBookAvailability(library, book1.getIsbn(), false);
 
+        assertFalse(library.getBook(book1.getIsbn()).isAvailable());
+    }
+
+    @Test
+    void setBookAvailability_shouldSetAvailable() throws Exception {
+        admin.addBookToLibrary(library, book1);
+        admin.setBookAvailability(library, book1.getIsbn(), true);
+
+        assertTrue(library.getBook(book1.getIsbn()).isAvailable());
+    }
     @Test
     void removeBookFromLibrary_shouldRemoveExistingBook() throws Exception {
         admin.addBookToLibrary(library, book1);

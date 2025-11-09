@@ -6,11 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="a1487c6d-d56c-4f2d-a68b-5f6b4c1fad24" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/libria/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/libria/domain/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/libria/domain/AdminTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/libria/domain/AdminTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/libria/domain/BookTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/libria/domain/BookTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/libria/domain/LibraryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/libria/domain/LibraryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/libria/domain/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/libria/domain/UserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LibriaService/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/src/main/java/com/libria/domain/ApplicationState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/src/main/java/com/libria/domain/ApplicationState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService.war" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/LibriaService.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/domain/ApplicationState.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/domain/ApplicationState.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/lib/LibriaDomain-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/lib/LibriaDomain-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/domain/ApplicationState.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/domain/ApplicationState.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,12 +45,24 @@
     "Application.Main.executor": "Run",
     "JUnit.AdminTest and 4 more.executor": "Coverage",
     "JUnit.AdminTest.executor": "Run",
+    "JUnit.AdminTest.setBookAvailability_shouldSetAvailable.executor": "Run",
+    "JUnit.AdminTest.setBookAvailability_shouldSetUnavailable.executor": "Run",
+    "JUnit.AdminTest.updateBookInLibrary_shouldDenyWhenNotAdmin.executor": "Run",
+    "JUnit.AdminTest.updateBookInLibrary_shouldThrowIfBookNotFound.executor": "Run",
+    "JUnit.AdminTest.updateBookInLibrary_shouldUpdateAvailability.executor": "Run",
+    "JUnit.AdminTest.updateBookInLibrary_shouldUpdateOnlyProvidedFields.executor": "Run",
+    "JUnit.BookTest.constructor_shouldThrowForInvalidParameters.executor": "Run",
+    "JUnit.BookTest.constructor_shouldThrowIfGenreIsMissing.executor": "Run",
+    "JUnit.BookTest.defaultConstructor_shouldInitializeEmptyBook.executor": "Run",
     "JUnit.BookTest.executor": "Run",
     "JUnit.LibraryTest.executor": "Run",
     "JUnit.LibraryTest.getBook_shouldReturnTheRightBookOrThrow.executor": "Run",
     "JUnit.LibraryTest.getUser_and_listUsers_shouldWorkAndBeDefensive.executor": "Run",
+    "JUnit.LibraryTest.removeUser_shouldRemoveExistingAndThrowIfMissing.executor": "Run",
     "JUnit.LibraryTest.searchByTitle_shouldBeCaseInsensitive_andPartial.executor": "Run",
     "JUnit.MemberTest.executor": "Run",
+    "JUnit.UserTest.defaultConstructor_shouldInitializeEmptyUser.executor": "Run",
+    "JUnit.UserTest.executor": "Run",
     "Maven.LibriaDomain [clean].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -78,7 +95,7 @@
       <recent name="com.libria.exception" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.LibraryTest">
+  <component name="RunManager" selected="JUnit.AdminTest">
     <configuration name="AdminTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LibriaService" />
       <extension name="coverage">
@@ -89,21 +106,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.libria.domain" />
       <option name="MAIN_CLASS_NAME" value="com.libria.domain.AdminTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BookTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="LibriaService" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.libria.domain.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.libria.domain" />
-      <option name="MAIN_CLASS_NAME" value="com.libria.domain.BookTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -124,7 +126,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LibraryTest.getBook_shouldReturnTheRightBookOrThrow" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="LibraryTest.removeUser_shouldRemoveExistingAndThrowIfMissing" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LibriaService" />
       <extension name="coverage">
         <pattern>
@@ -134,13 +136,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.libria.domain" />
       <option name="MAIN_CLASS_NAME" value="com.libria.domain.LibraryTest" />
-      <option name="METHOD_NAME" value="getBook_shouldReturnTheRightBookOrThrow" />
+      <option name="METHOD_NAME" value="removeUser_shouldRemoveExistingAndThrowIfMissing" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LibraryTest.getUser_and_listUsers_shouldWorkAndBeDefensive" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LibriaService" />
       <extension name="coverage">
         <pattern>
@@ -149,8 +151,23 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.libria.domain" />
-      <option name="MAIN_CLASS_NAME" value="com.libria.domain.LibraryTest" />
-      <option name="METHOD_NAME" value="getUser_and_listUsers_shouldWorkAndBeDefensive" />
+      <option name="MAIN_CLASS_NAME" value="com.libria.domain.UserTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserTest.defaultConstructor_shouldInitializeEmptyUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LibriaService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.libria.domain.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.libria.domain" />
+      <option name="MAIN_CLASS_NAME" value="com.libria.domain.UserTest" />
+      <option name="METHOD_NAME" value="defaultConstructor_shouldInitializeEmptyUser" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -169,11 +186,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.LibraryTest" />
-        <item itemvalue="JUnit.LibraryTest.getBook_shouldReturnTheRightBookOrThrow" />
-        <item itemvalue="JUnit.LibraryTest.getUser_and_listUsers_shouldWorkAndBeDefensive" />
-        <item itemvalue="JUnit.BookTest" />
         <item itemvalue="JUnit.AdminTest" />
+        <item itemvalue="JUnit.UserTest" />
+        <item itemvalue="JUnit.UserTest.defaultConstructor_shouldInitializeEmptyUser" />
+        <item itemvalue="JUnit.LibraryTest.removeUser_shouldRemoveExistingAndThrowIfMissing" />
+        <item itemvalue="JUnit.LibraryTest" />
       </list>
     </recent_temporary>
   </component>
@@ -206,7 +223,7 @@
       <workItem from="1762350944429" duration="598000" />
       <workItem from="1762609321900" duration="8586000" />
       <workItem from="1762682884620" duration="7292000" />
-      <workItem from="1762703560666" duration="346000" />
+      <workItem from="1762703560666" duration="4158000" />
     </task>
     <servers />
   </component>

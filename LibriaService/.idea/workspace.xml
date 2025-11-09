@@ -6,7 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="a017cb95-292e-45cc-8be6-f2cc095ddc44" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../LibriaDomain/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaDomain/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaDomain/src/test/java/com/libria/domain/AdminTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaDomain/src/test/java/com/libria/domain/AdminTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaDomain/src/test/java/com/libria/domain/BookTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaDomain/src/test/java/com/libria/domain/BookTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaDomain/src/test/java/com/libria/domain/LibraryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaDomain/src/test/java/com/libria/domain/LibraryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaDomain/src/test/java/com/libria/domain/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaDomain/src/test/java/com/libria/domain/UserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/libria/domain/ApplicationState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/libria/domain/ApplicationState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/LibriaService.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/LibriaService.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/LibriaService/WEB-INF/classes/com/libria/domain/ApplicationState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/LibriaService/WEB-INF/classes/com/libria/domain/ApplicationState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/LibriaService/WEB-INF/lib/LibriaDomain-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/LibriaService/WEB-INF/lib/LibriaDomain-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/libria/domain/ApplicationState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/libria/domain/ApplicationState.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,7 +171,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.LibraryResourceTest.testGetReviews_success" />
-        <item itemvalue="JUnit.LibraryResourceTest (1)" />
         <item itemvalue="JUnit.LibraryResourceTest" />
         <item itemvalue="JUnit.LibraryResourceTest.testGetReviews_noItems" />
         <item itemvalue="JUnit.LibraryResourceTest.testGetOne_existingBook" />
@@ -196,6 +204,7 @@
       <workItem from="1762609333418" duration="10967000" />
       <workItem from="1762634910641" duration="506000" />
       <workItem from="1762682856584" duration="13813000" />
+      <workItem from="1762703565525" duration="3138000" />
     </task>
     <servers />
   </component>

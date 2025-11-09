@@ -158,7 +158,7 @@ public class ApplicationState {
             library.registerUser(julien);
             library.registerUser(admin);
 
-            System.out.println("📚 LibriaService - ApplicationState initialisé !");
+            System.out.println("LibriaService - ApplicationState initialisé !");
             System.out.println("   → " + library.listBooks().size() + " livres");
             System.out.println("   → " + library.listUsers().size() + " utilisateurs");
 
