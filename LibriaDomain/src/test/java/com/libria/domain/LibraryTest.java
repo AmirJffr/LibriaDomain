@@ -113,8 +113,8 @@ class LibraryTest {
     }
 
     @Test
-    void getBook_shouldReturnTheRightBookOrNull() {
-        assertNull(library.getBook("ISBN-1"));
+    void getBook_shouldReturnTheRightBookOrThrow() throws Exception {
+        assertThrows(BookNotFoundException.class, () -> library.getBook("ISBN-1"));
 
         library.addBook(b1);
         Book found = library.getBook("ISBN-1");
