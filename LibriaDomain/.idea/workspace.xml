@@ -5,17 +5,103 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1487c6d-d56c-4f2d-a68b-5f6b4c1fad24" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../LibriaService/files/pdf/le_couloir_du_passe.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LibriaService/src/main/java/com/libria/rest/PingResource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/BookBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/ProfileBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/web/PdfProxyServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/profile.xhtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/templates/MainTemplate.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/libria/domain/AdminTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/libria/domain/AdminTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/libria/domain/BookTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/libria/domain/BookTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/libria/domain/LibraryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/libria/domain/LibraryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/libria/domain/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/libria/domain/Library.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/libria/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/libria/domain/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/libria/domain/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/libria/domain/UserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LibriaService/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LibriaService/src/main/java/com/libria/domain/ApplicationState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/src/main/java/com/libria/domain/ApplicationState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/src/main/java/com/libria/rest/FileResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/src/main/java/com/libria/rest/FileResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/src/main/java/com/libria/rest/LibraryResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/src/main/java/com/libria/rest/LibraryResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/src/main/java/com/libria/rest/UserResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/src/main/java/com/libria/rest/UserResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/src/main/resources/cover/cover-exemple.png" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/files/cover/cover-exemple.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/src/main/resources/pdf/pdf-exemple.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/files/pdf/pdf-exemple.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService.war" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/LibriaService.war" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/domain/ApplicationState.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/domain/ApplicationState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/rest/FileResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/rest/FileResource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/rest/LibraryResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/rest/LibraryResource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/rest/UserResource$LoginBody.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/rest/UserResource$LoginBody.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/rest/UserResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/com/libria/rest/UserResource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/cover/cover-exemple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/classes/pdf/pdf-exemple.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/lib/LibriaDomain-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/LibriaService/WEB-INF/lib/LibriaDomain-1.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/domain/ApplicationState.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/domain/ApplicationState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/rest/FileResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/rest/FileResource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/rest/LibraryResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/rest/LibraryResource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/rest/UserResource$LoginBody.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/rest/UserResource$LoginBody.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/rest/UserResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/classes/com/libria/rest/UserResource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/classes/cover/cover-exemple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/classes/pdf/pdf-exemple.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaService/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaService/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/.idea/webContexts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/.idea/webContexts.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/AddBookBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/AddBookBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/DownloadsBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/DownloadsBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/LibraryBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/LibraryBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/LibriaWebAppService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/LibriaWebAppService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/LoginBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/LoginBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/RegisterBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/RegisterBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/UserBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/java/com/libria/ui/UserBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/addBook.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/addBook.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/book.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/book.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/downloads.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/downloads.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/layout/navbar.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/library.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/library.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/login.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/login.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/register.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/register.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/resources/css/addbook.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/resources/css/library.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/resources/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/resources/css/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/resources/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/src/main/webapp/resources/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT.war" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/WEB-INF/classes/com/libria/ui/AddBookBean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/WEB-INF/classes/com/libria/ui/DownloadsBean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/WEB-INF/classes/com/libria/ui/LibraryBean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/WEB-INF/classes/com/libria/ui/LibriaWebAppService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/WEB-INF/classes/com/libria/ui/LoginBean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/WEB-INF/classes/com/libria/ui/RegisterBean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/WEB-INF/classes/com/libria/ui/UserBean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/WEB-INF/lib/LibriaDomain-1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/WEB-INF/lib/primefaces-14.0.5-jakarta.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/addBook.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/book.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/downloads.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/index.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/layout/navbar.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/library.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/login.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/register.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/resources/META-INF/beans.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/resources/META-INF/faces-config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/resources/css/addbook.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/resources/css/library.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/resources/css/login.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/resources/css/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/LibriaWebApp-1.0-SNAPSHOT/resources/images/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/AddBookBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/AddBookBean.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/LibraryBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/LibraryBean.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/LibriaWebAppService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/LibriaWebAppService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/LoginBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/LoginBean.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/RegisterBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/RegisterBean.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/UserBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/target/classes/com/libria/ui/UserBean.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibriaWebApp/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../LibriaWebApp/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,14 +149,16 @@
     "JUnit.MemberTest.executor": "Run",
     "JUnit.UserTest.defaultConstructor_shouldInitializeEmptyUser.executor": "Run",
     "JUnit.UserTest.executor": "Run",
+    "JUnit.domain in LibriaService.executor": "Run",
     "Maven.LibriaDomain [clean].executor": "Run",
+    "Maven.LibriaDomain [test].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/zakk/Desktop/Projets/ProjetSoftware/LibriaDomain",
+    "last_opened_file_path": "/Users/zakk/Desktop/PROJETS/ProjetSoftware/LibriaDomain",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -95,7 +183,7 @@
       <recent name="com.libria.exception" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AdminTest">
+  <component name="RunManager" selected="JUnit.MemberTest">
     <configuration name="AdminTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LibriaService" />
       <extension name="coverage">
@@ -111,7 +199,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LibraryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MemberTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LibriaService" />
       <extension name="coverage">
         <pattern>
@@ -120,24 +208,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.libria.domain" />
-      <option name="MAIN_CLASS_NAME" value="com.libria.domain.LibraryTest" />
+      <option name="MAIN_CLASS_NAME" value="com.libria.domain.MemberTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LibraryTest.removeUser_shouldRemoveExistingAndThrowIfMissing" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="LibriaService" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.libria.domain.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.libria.domain" />
-      <option name="MAIN_CLASS_NAME" value="com.libria.domain.LibraryTest" />
-      <option name="METHOD_NAME" value="removeUser_shouldRemoveExistingAndThrowIfMissing" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -173,24 +245,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="LibriaDomain" />
+    <configuration name="domain in LibriaService" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LibriaService" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java/com/libria/domain" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="LibriaDomain" />
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MemberTest" />
         <item itemvalue="JUnit.AdminTest" />
+        <item itemvalue="JUnit.domain in LibriaService" />
         <item itemvalue="JUnit.UserTest" />
         <item itemvalue="JUnit.UserTest.defaultConstructor_shouldInitializeEmptyUser" />
-        <item itemvalue="JUnit.LibraryTest.removeUser_shouldRemoveExistingAndThrowIfMissing" />
-        <item itemvalue="JUnit.LibraryTest" />
       </list>
     </recent_temporary>
   </component>
@@ -224,6 +293,15 @@
       <workItem from="1762609321900" duration="8586000" />
       <workItem from="1762682884620" duration="7292000" />
       <workItem from="1762703560666" duration="4158000" />
+      <workItem from="1762712124102" duration="552000" />
+      <workItem from="1762759350211" duration="6083000" />
+      <workItem from="1762766652813" duration="12000" />
+      <workItem from="1762770013925" duration="600000" />
+      <workItem from="1764337832240" duration="46000" />
+      <workItem from="1764337903142" duration="3100000" />
+      <workItem from="1764342199250" duration="608000" />
+      <workItem from="1764447807439" duration="5530000" />
+      <workItem from="1764531892716" duration="772000" />
     </task>
     <servers />
   </component>

@@ -1,99 +1,143 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+/* =========================================================
+   PAGE LOGIN (login.xhtml)
+   ========================================================= */
 
-/* === Centrage de la page === */
+/* Corps de la page login */
+.login-page {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #eef2ff 0, #f8f9ff 60%, #f3f4ff 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.brand-icon-img {
+    justify-content: center;
+}
+/* Wrapper centré */
 .login-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    width: 100%;
 }
 
-/* === Carte de connexion === */
+/* Carte de connexion */
 .login-card {
     background: #ffffff;
     border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    padding: 48px 56px;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+    padding: 40px 48px;
     width: 380px;
     text-align: center;
+    border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
-/* === Logo rond === */
+/* Logo rond */
 .logo {
-    width: 68px;
-    height: 68px;
+    width: 80px;
+    height: 80px;
     background-color: #0b0b14;
     color: white;
-    border-radius: 50%;
+    border-radius: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 30px;
     margin: 0 auto 18px auto;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.35);
 }
 
-/* === Titre et sous-titre === */
+/* Titre & sous-titre */
 .app-title {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 600;
-    margin-bottom: 8px;
-    color: #1d1d1d;
+    margin-bottom: 6px;
+    color: #0f172a;
 }
 
 .subtitle {
-    color: #7a7a7a;
-    font-size: 0.95rem;
+    color: #6b7280;
+    font-size: 0.92rem;
     margin-bottom: 24px;
 }
 
-/* === Champs === */
-.field {
+/* Messages */
+.msg-block {
+    margin-bottom: 16px;
+}
+
+/* Champs login */
+.login-form .field {
     margin-bottom: 16px;
     text-align: left;
 }
 
-.field label {
+.login-form .field label {
     display: block;
-    font-weight: 600;
-    color: #333;
+    font-weight: 500;
+    color: #111827;
     margin-bottom: 6px;
+    font-size: 0.9rem;
 }
 
-/* === Input === */
-.input, .ui-inputfield {
+/* Inputs */
+.input,
+.login-form .ui-inputfield {
     width: 100%;
     box-sizing: border-box;
     padding: 10px 14px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #e5e7eb;
     border-radius: 10px;
-    background-color: #f5f5f5;
+    background-color: #f9fafb;
     font-size: 0.95rem;
-    color: #333;
-    transition: all 0.2s ease-in-out;
+    color: #111827;
+    transition: all 0.18s ease-in-out;
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
 }
 
-.input:focus, .ui-inputfield:focus {
-    border-color: #0b0b14;
-    background-color: #fff;
+.input:focus,
+.login-form .ui-inputfield:focus {
+    border-color: #4f46e5;
+    background-color: #ffffff;
     outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
 }
 
-/* === Bouton === */
-.btn-login {
-    display: inline-block;
+/* Bouton principal */
+.btn-login,
+.btn-login .ui-button-text {
     width: 100%;
-    background-color: #0b0b14 !important;
-    border: none !important;
-    color: white !important;
-    font-weight: 600;
-    padding: 12px 0;
-    border-radius: 10px;
-    font-size: 1rem;
+    background-color: #111827 !important;
+    border: 1px solid #111827 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 11px 0 !important;
+    border-radius: 10px !important;
+    font-size: 0.95rem !important;
     cursor: pointer;
-    transition: background 0.25s ease;
-    margin-top: 6px;
+    transition: background 0.2s ease, transform 0.08s ease;
+    text-align: center;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-login:hover {
-    background-color: #232332 !important;
+    background-color: #020617 !important;
+    border-color: #020617 !important;
+    transform: translateY(-1px);
+}
+
+/* Bouton secondaire (Inscription) */
+.btn-secondary,
+.btn-secondary .ui-button-text {
+    margin-top: 8px;
+    background-color: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    color: #111827 !important;
+    font-weight: 500 !important;
+}
+
+.btn-secondary:hover {
+    background-color: #f9fafb !important;
 }

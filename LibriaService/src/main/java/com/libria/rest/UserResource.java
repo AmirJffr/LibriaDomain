@@ -32,7 +32,7 @@ public class UserResource {
     }
 
     public static class LoginBody {
-        public String userId;
+        public String email;
         public String password;
     }
 
@@ -41,7 +41,7 @@ public class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(LoginBody body) {
         try {
-            User u = state.authenticate(body.userId, body.password);
+            User u = state.authenticate(body.email, body.password);
 
             return Response.ok(Map.of(
                     "userId", u.getUserId(),
@@ -92,7 +92,7 @@ public class UserResource {
         if (body == null || body.newPassword == null || body.newPassword.isBlank())
             throw new WebApplicationException("Nouveau mot de passe requis", Response.Status.BAD_REQUEST);
         User u = requireUser(userId);
-        u.changePassword(body.newPassword);
+        u.setPassword(body.newPassword);
         return Response.noContent().build();
     }
 

@@ -3,6 +3,7 @@ package com.libria.rest;
 import com.libria.domain.Book;
 import com.libria.domain.Library;
 import com.libria.domain.ApplicationState;
+import com.libria.exception.BookNotFoundException;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -32,8 +33,20 @@ public class LibraryResource {
     @GET
     @Path("/books/{isbn}")
     public Response getOne(@PathParam("isbn") String isbn) {
-        var b = lib().getBook(isbn);
-        return b == null ? Response.status(Response.Status.NOT_FOUND).build() : Response.ok(b).build();
+        try {
+            var b = lib().getBook(isbn);
+            return Response.ok(b).build();
+        } catch (BookNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
     }
 
     @GET

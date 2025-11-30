@@ -5,10 +5,16 @@ import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.media.multipart.BodyPart;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.primefaces.model.file.UploadedFile;
 
 import java.util.List;
 import java.util.Map;
@@ -16,10 +22,9 @@ import java.util.Map;
 @ApplicationScoped
 public class LibriaWebAppService {
 
-    // URL interne Docker -> le webapp parle au service par son hostname
     private static final String BASE = System.getenv().getOrDefault(
             "LIBRIA_SERVICE_URL",
-            "http://payara-libria-service:8080/LibriaService-1.0-SNAPSHOT/api"
+            "http://payara-libria-service:8080/LibriaService/api"
     );
 
     private Client client;
@@ -30,11 +35,16 @@ public class LibriaWebAppService {
 
     @PostConstruct
     void init() {
-        client  = ClientBuilder.newClient();
+
+        client = ClientBuilder.newBuilder()
+                .register(MultiPartFeature.class)
+                .build();
+
         auth    = client.target(BASE).path("auth");
         library = client.target(BASE).path("library");
         users   = client.target(BASE).path("users");
         files   = client.target(BASE).path("files");
+
         System.out.println("[WebApp] Using service base URL: " + BASE);
     }
 
@@ -43,11 +53,104 @@ public class LibriaWebAppService {
         if (client != null) client.close();
     }
 
-    /* ===== Auth ===== */
-    public Map<String, Object> login(String userId, String password) {
-        Response resp = auth.path("login")
+
+    // ===========================
+    // UPLOAD COVER
+    // ===========================
+    public String uploadCover(UploadedFile file) throws Exception {
+        if (file == null || file.getFileName() == null) return null;
+
+        WebTarget target = files.path("cover");
+
+        String cleanName = System.currentTimeMillis() + "-" +
+                file.getFileName().replaceAll("\\s+", "_");
+
+        try (FormDataMultiPart multi = new FormDataMultiPart()) {
+
+            BodyPart part = new BodyPart(
+                    file.getInputStream(),
+                    MediaType.APPLICATION_OCTET_STREAM_TYPE
+            );
+
+            part.setContentDisposition(
+                    FormDataContentDisposition.name("file")
+                            .fileName(cleanName)
+                            .build()
+            );
+
+            multi.bodyPart(part);
+
+            Response resp = target.request().post(Entity.entity(multi, multi.getMediaType()));
+
+            if (resp.getStatus() != 201) {
+                throw new RuntimeException("Upload cover failed: " + resp.getStatus());
+            }
+
+            Map<String,Object> json = resp.readEntity(Map.class);
+            return (String) json.get("url");
+        }
+    }
+
+    // ===========================
+    // UPLOAD PDF
+    // ===========================
+    public String uploadPdf(UploadedFile file) throws Exception {
+        if (file == null || file.getFileName() == null) return null;
+
+        WebTarget target = files.path("pdf");
+
+        String cleanName = System.currentTimeMillis() + "-" +
+                file.getFileName().replaceAll("\\s+", "_");
+
+        try (FormDataMultiPart multi = new FormDataMultiPart()) {
+
+            BodyPart part = new BodyPart(
+                    file.getInputStream(),
+                    MediaType.APPLICATION_OCTET_STREAM_TYPE
+            );
+
+            part.setContentDisposition(
+                    FormDataContentDisposition.name("file")
+                            .fileName(cleanName)
+                            .build()
+            );
+
+            multi.bodyPart(part);
+
+            Response resp = target.request().post(Entity.entity(multi, multi.getMediaType()));
+
+            if (resp.getStatus() != 201) {
+                throw new RuntimeException("Upload PDF failed: " + resp.getStatus());
+            }
+
+            Map<String,Object> json = resp.readEntity(Map.class);
+            return (String) json.get("url");
+        }
+    }
+
+    // ===========================
+    // ADMIN ADD BOOK
+    // ===========================
+    public Response addBook(String userId, Map<String,Object> payload) {
+
+        WebTarget admin = client
+                .target(BASE)
+                .path("admin")
+                .path("books")
+                .path(userId);
+
+        return admin.request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(payload, MediaType.APPLICATION_JSON));
+    }
+
+    // ===========================
+    // REMAINING METHODS (UNCHANGED)
+    // ===========================
+
+    public Map<String, Object> loginByEmail(String email, String password) {
+        Response resp = users.path("login")
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.json(Map.of("userId", userId, "password", password)));
+                .post(Entity.json(Map.of("email", email, "password", password)));
 
         return resp.getStatusInfo().getFamily() == Response.Status.Family.SUCCESSFUL
                 ? resp.readEntity(Map.class)
@@ -56,41 +159,26 @@ public class LibriaWebAppService {
 
     public void logout() {
         try {
-            auth.path("logout").request().post(null);
+            users.path("logout").request().post(null);
         } catch (Exception ignored) {}
     }
 
-    /* ===== Library (catalogue) ===== */
     public List<Map<String,Object>> listBooks() {
         return library.path("books")
                 .request(MediaType.APPLICATION_JSON)
                 .get(List.class);
     }
-
+    public List<Map<String,Object>> listDownloads(String userId) {
+        return users.path(userId).path("downloads")
+                .request(MediaType.APPLICATION_JSON)
+                .get(List.class);
+    }
     public List<Map<String,Object>> searchBooksByTitle(String title) {
         return library.path("books").path("search")
                 .queryParam("title", title)
                 .request(MediaType.APPLICATION_JSON)
                 .get(List.class);
     }
-
-    public Map<String,Object> getBook(String isbn) {
-        Response r = library.path("books").path(isbn)
-                .request(MediaType.APPLICATION_JSON)
-                .get();
-
-        return r.getStatusInfo().getFamily() == Response.Status.Family.SUCCESSFUL
-                ? r.readEntity(Map.class)
-                : Map.of();
-    }
-
-    /* ===== Downloads utilisateur ===== */
-    public List<Map<String,Object>> listDownloads(String userId) {
-        return users.path(userId).path("downloads")
-                .request(MediaType.APPLICATION_JSON)
-                .get(List.class);
-    }
-
     public Response downloadBook(String userId, String isbn) {
         return users.path(userId).path("downloads").path(isbn)
                 .request()
@@ -102,62 +190,117 @@ public class LibriaWebAppService {
                 .request()
                 .delete();
     }
+    public Map<String,Object> getBook(String isbn) {
+        Response r = library.path("books").path(isbn)
+                .request(MediaType.APPLICATION_JSON)
+                .get();
 
-    /* ===== Files (covers / pdf) ===== */
-
-    // Si ton Book stocke juste "cover-exemple.png", tu peux produire l'URL utilisable dans <img src="...">
-    public String buildCoverUrl(String coverFileName) {
-        if (coverFileName == null || coverFileName.isBlank()) return null;
-        // retourne une URL ABSOLUE que le navigateur du user peut appeler DIRECTEMENT
-        // -> donc on utilise le port EXPOSE sur ta machine : 8081
-        return "http://localhost:8081/LibriaService-1.0-SNAPSHOT/api/files/cover/" + coverFileName;
+        return r.getStatusInfo().getFamily() == Response.Status.Family.SUCCESSFUL
+                ? r.readEntity(Map.class)
+                : Map.of();
     }
 
-    // Idem pour le PDF
-    public String buildPdfUrl(String pdfFileName) {
-        if (pdfFileName == null || pdfFileName.isBlank()) return null;
-        return "http://localhost:8081/LibriaService-1.0-SNAPSHOT/api/files/pdf/" + pdfFileName;
+    public boolean registerUser(Map<String, Object> newUserPayload) {
+        Response resp = client
+                .target(BASE)
+                .path("members/register")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(newUserPayload));
+
+        return resp.getStatus() == 200 || resp.getStatus() == 201;
     }
 
-    public Response addBook(Map<String, Object> payload) {
-        // Appel du service REST côté LibriaService
+    public Map<String, Object> getBookRating(String isbn) {
+        // cible: /library/books/reviews/{isbn}
+        WebTarget target = library
+                .path("books")
+                .path("reviews")
+                .path(isbn);
+
+        Response resp = target
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+
+        int status = resp.getStatus();
+        System.out.println("[WebApp] Rating HTTP status = " + status +
+                " uri " + target.getUri());
+
+        if (resp.getStatusInfo().getFamily() != Response.Status.Family.SUCCESSFUL) {
+            System.out.println("[WebApp] Rating -> pas succès, retour map vide");
+            return Map.of();
+        }
+
+        // 🔥 lire UNE SEULE FOIS en Map
+        Map<String,Object> map = resp.readEntity(Map.class);
+        System.out.println("[WebApp] Rating MAP = " + map);
+
+        return map != null ? map : Map.of();
+    }
+
+
+    /* ========= Profil utilisateur ========= */
+
+    public Map<String,Object> getUserProfile(String userId) {
+        Response resp = users
+                .path(userId)             // -> /users/{userId}
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+
+        if (resp.getStatusInfo().getFamily() != Response.Status.Family.SUCCESSFUL) {
+            System.out.println("[WebApp] getUserProfile HTTP " + resp.getStatus());
+            return Map.of();
+        }
+
+        return resp.readEntity(Map.class);
+    }
+
+    // ===== User profile / settings =====
+
+    public Response updateUserProfile(String userId, String name, String email, String role) {
         try {
-            // on cible l’endpoint /admin/books de LibriaService
-            WebTarget admin = client.target(BASE).path("admin").path("books");
+            Map<String, Object> body = Map.of(
+                    "name",  name,
+                    "email", email,
+                    "role",  role
+            );
 
-            // on envoie la requête POST avec le JSON du livre
-            Response resp = admin
+            Response resp = users
+                    .path(userId)          // /users/{userId}
+                    .path("profile")       // /profile
                     .request(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(payload, MediaType.APPLICATION_JSON));
+                    .put(Entity.json(body));
 
-            return resp; // on renvoie la réponse brute au bean JSF (addBookBean)
+            System.out.println("[WebApp] updateUserProfile " + userId + " => HTTP " + resp.getStatus());
+            return resp;
+
         } catch (Exception e) {
             e.printStackTrace();
-            // Si le service est injoignable ou erreur réseau
             return Response.status(Response.Status.SERVICE_UNAVAILABLE)
                     .entity("Service LibriaService injoignable : " + e.getMessage())
                     .build();
         }
     }
 
-    public boolean registerUser(Map<String, Object> newUserPayload) {
+    public Response updateUserPassword(String userId, String newPassword) {
         try {
-            Response resp = client
-                    .target(BASE)
-                    .path("members/register") // ✅ correspond à ton MemberResource
+            Map<String, Object> body = Map.of(
+                    "newPassword", newPassword
+            );
+
+            Response resp = users
+                    .path(userId)          // /users/{userId}
+                    .path("password")      // /password
                     .request(MediaType.APPLICATION_JSON)
-                    .post(Entity.json(newUserPayload));
+                    .put(Entity.json(body));
 
-            int status = resp.getStatus();
-            System.out.println("[WebApp] registerUser => HTTP " + status);
-
-            // 201 Created ou 200 OK = succès
-            return status == 201 || status == 200;
+            System.out.println("[WebApp] updateUserPassword " + userId + " => HTTP " + resp.getStatus());
+            return resp;
 
         } catch (Exception e) {
-            System.out.println("[WebApp] registerUser ERROR: " + e.getMessage());
-            return false;
+            e.printStackTrace();
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                    .entity("Service LibriaService injoignable : " + e.getMessage())
+                    .build();
         }
     }
-
 }

@@ -5,7 +5,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped; // <-- si tu préfères ViewScoped, garde celui-ci
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Named("downloadsBean")
-@ViewScoped   // ou @SessionScoped si tu veux garder l’état plus longtemps
+@ViewScoped
 public class DownloadsBean implements Serializable {
     private List<Map<String,Object>> books = new ArrayList<>();
     private List<Map<String,Object>> filtered = new ArrayList<>();

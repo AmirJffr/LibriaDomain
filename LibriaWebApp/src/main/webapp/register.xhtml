@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -6,8 +8,13 @@
 
 <h:head>
     <title>Libria — Créer un compte</title>
-    <!-- même CSS global que login -->
+
+    <!-- CSS global unique -->
     <h:outputStylesheet name="css/style.css"/>
+    <h:outputStylesheet name="css/login.css"/>
+    <!-- Icônes PrimeFaces si tu en utilises -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css"/>
 </h:head>
 
 <h:body class="login-page">
@@ -15,30 +22,28 @@
     <div class="login-wrapper">
         <div class="login-card">
 
-            <!-- Logo -->
-            <div class="logo">
-                <i class="pi pi-book"></i>
+            <!-- Logo identique au login -->
+            <div class="brand-icon-img">
+                <img src="#{request.contextPath}/resources/images/logo.png" alt="logo"/>
             </div>
+
 
             <!-- Titre / sous-titre -->
             <h2 class="app-title">Créer un compte</h2>
-            <p class="subtitle">Rejoignez la librairie en ligne et téléchargez vos livres</p>
+            <p class="subtitle">
+                Rejoignez la librairie en ligne et téléchargez vos livres
+            </p>
 
             <!-- Formulaire -->
-            <h:form styleClass="login-form" id="registerForm">
+            <h:form id="registerForm" styleClass="login-form">
 
                 <!-- messages d'erreur / succès -->
-                <p:messages id="msgs" closable="true" styleClass="msg-block" />
+                <p:messages id="msgs" closable="true" styleClass="msg-block"/>
 
                 <!-- Identifiant utilisateur -->
                 <div class="field">
-                    <label for="userIdField">Identifiant *</label>
-                    <p:inputText id="userIdField"
-                                 value="#{registerBean.userId}"
-                                 placeholder="ex: M001"
-                                 required="true"
-                                 requiredMessage="L'identifiant est obligatoire."
-                                 styleClass="input"/>
+                    <label>Identifiant</label>
+                    <h:outputText value="Sera généré automatiquement (MBxxxx)" />
                 </div>
 
                 <!-- Nom complet -->
@@ -61,7 +66,6 @@
                                  required="true"
                                  requiredMessage="L'email est obligatoire."
                                  styleClass="input">
-                        <f:validateRegex pattern="^[^@]+@[^@]+\\.[^@]+$"/>
                     </p:inputText>
                 </div>
 
@@ -80,7 +84,7 @@
                 <!-- Bouton S'inscrire -->
                 <p:commandButton value="Créer mon compte"
                                  action="#{registerBean.register}"
-                                 update="registerForm:msgs"
+                                 update="msgs"
                                  ajax="true"
                                  styleClass="btn-login"
                                  icon="pi pi-user-plus"/>

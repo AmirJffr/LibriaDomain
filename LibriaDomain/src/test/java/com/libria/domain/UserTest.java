@@ -2,9 +2,6 @@ package com.libria.domain;
 
 import com.libria.exception.BookAlreadyExistException;
 import com.libria.exception.BookNotFoundException;
-import com.libria.domain.Book;
-import com.libria.domain.Member;
-import com.libria.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -105,8 +102,8 @@ class UserTest {
     }
 
     @Test
-    void changePassword_shouldUpdatePassword() throws Exception {
-        user.changePassword("newpass");
+    void setPassword_shouldUpdatePassword() throws Exception {
+        user.setPassword("newpass");
         assertTrue(user.login("newpass"));
     }
 

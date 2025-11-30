@@ -39,20 +39,26 @@ public class ApplicationState {
         ((Admin) user).updateBookInLibrary(library, isbn, updated);
     }
 
+    public User authenticate(String email, String password)
+            throws UserNotFoundException, LoginException, IllegalArgumentException {
 
-    public User authenticate(String userId, String password) throws UserNotFoundException, LoginException, IllegalArgumentException {
-
-        if (userId == null || userId.isBlank() || password == null || password.isBlank()) {
-            throw new IllegalArgumentException("Identifiants requis.");
+        if (email == null || email.isBlank() || password == null || password.isBlank()) {
+            throw new IllegalArgumentException("Email et mot de passe requis.");
         }
 
-        User u = library.getUser(userId);
+
+        User u = library.listUsers().stream()
+                .filter(user -> email.equalsIgnoreCase(user.getEmail()))
+                .findFirst()
+                .orElse(null);
+
         if (u == null) {
-            throw new UserNotFoundException("Utilisateur introuvable.");
+            throw new UserNotFoundException("Utilisateur introuvable pour cet email.");
         }
+
 
         try {
-            u.login(password); // peut lever LoginException
+            u.login(password); // peut lever LoginException de ton modèle
             return u;
         } catch (LoginException e) {
             throw new LoginException("Mot de passe incorrect.");

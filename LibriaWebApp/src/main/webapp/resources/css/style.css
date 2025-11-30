@@ -1,20 +1,35 @@
-/* === Global Reset === */
+/* =========================================================
+   FONT GLOBAL
+   ========================================================= */
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* === Thème global === */
 html, body {
     height: 100%;
-    font-family: "Times New Roman", Times, serif;
-    background-color: #f9f7f2; /* blanc cassé doux */
-    color: #2b2b2b;
+    font-family: "Times New Roman";
+    background-color: #f8f9ff;
+    color: #111827;
     line-height: 1.6;
 }
 
-/* === Utilitaires généraux === */
+/* Fond générique pour les pages via layout */
+.page-bg {
+    min-height: 100vh;
+    background-color: #f8f9ff;
+}
+
+/* Contenu principal (utilisé par mainLayout.xhtml) */
+.main-content {
+    max-width: 1280px;
+    margin: 24px auto 40px auto;
+    padding: 0 24px;
+}
+
+/* Utilitaires */
 .container {
     max-width: 1100px;
     margin: 0 auto;
@@ -22,47 +37,1099 @@ html, body {
 }
 
 h1, h2, h3 {
-    color: #2b4c7e;
+    color: #111827;
 }
 
 a {
     text-decoration: none;
-    color: #2b4c7e;
+    color: inherit;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
-button, .ui-button {
-    font-family: inherit;
-}
-
-.page {
-    padding-bottom: 40px;
-}
-/* LOGO GLOBAL (toutes pages) */
-.brand-icon-img img {
-    width: 38px;
-    height: 38px;
-    object-fit: contain;      /* garde les proportions */
-    display: block;
-    border-radius: 6px;       /* optionnel pour un rendu doux */
-}
-
-/* Pour le container du logo */
-.brand-icon-img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.brand-icon-img img {
-    max-width: 24px;
-    max-height: 24px;
-    filter: invert(1); /* rend blanc si logo est noir */
-}
+/* Marges / largeur utilitaires */
 .mb-2 { margin-bottom: 12px; }
 .mb-3 { margin-bottom: 18px; }
 .ml-2 { margin-left: 8px; }
 .mr-2 { margin-right: 8px; }
 .w-100 { width: 100%; }
+
+/* =========================================================
+   NAVBAR / TOPBAR GLOBALE (UTILISÉE PARTOUT VIA mainLayout)
+   ========================================================= */
+
+.topbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    gap: 16px;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* Brand */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon-img {
+    width: 40px;
+    height: 40px;
+    background-color: #050512;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.brand-icon-img img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: invert(1); /* logo blanc si noir */
+}
+
+.brand-text .site-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Nav principale */
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 8px 12px;
+    color: #374151;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+
+.nav-item i {
+    font-size: 0.9rem;
+}
+
+.nav-item:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+/* Onglet actif (via activePage dans le layout) */
+.nav-item.nav-active,
+.nav-item.active {
+    background-color: #050512;
+    border-color: #050512;
+    color: #ffffff !important;
+}
+
+/* Zone droite (user + logout) */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Chip utilisateur */
+.user-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background-color: #ffffff;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    font-size: 0.85rem;
+    color: #111827;
+}
+
+.user-chip i {
+    font-size: 0.85rem;
+}
+
+/* Badge rôle */
+.role-badge {
+    background-color: #050512;
+    color: #ffffff;
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Bouton logout (PrimeFaces) */
+.logout-form {
+    margin: 0;
+}
+
+.logout-btn,
+.logout-btn .ui-button-text {
+    background-color: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 999px !important;
+    color: #111827 !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    padding: 6px 10px !important;
+}
+
+.logout-btn:hover {
+    background-color: #f9fafb !important;
+}
+
+/* =========================================================
+   PAGE LIBRARY (library.xhtml)
+   ========================================================= */
+
+.page-header {
+    margin-bottom: 16px;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 4px 0;
+}
+
+.page-subtitle {
+    font-size: 0.95rem;
+    color: #6b6b75;
+    margin: 0;
+}
+
+/* Barre de filtres / recherche */
+.filters-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.search-form {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-box {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+    background-color: #f4f5f8;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding-left: 36px;
+    height: 44px;
+}
+
+.search-ico {
+    position: absolute;
+    left: 12px;
+    font-size: 14px;
+    color: #6b6b75;
+}
+
+.search-input {
+    border: 0 !important;
+    background: transparent !important;
+    width: 100% !important;
+    font-size: 14px !important;
+    color: #1a1a1a !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.category-dropdown {
+    min-width: 220px;
+}
+
+.category-select {
+    width: 100% !important;
+    border-radius: 8px !important;
+}
+
+/* Bouton caché (submit) */
+.hidden-submit {
+    display: none;
+}
+
+/* Messages */
+.msgs-block {
+    margin-bottom: 24px;
+}
+
+/* GRID DE LIVRES */
+.books-grid-wrapper {
+    width: 100%;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+/* Carte livre */
+.book-card {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Couverture */
+.book-cover {
+    width: 100%;
+    height: 180px;
+    background-color: #f0f1f5;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cover-placeholder {
+    color: #6b6b75;
+    font-size: 32px;
+}
+
+/* Infos livre */
+.book-info {
+    padding: 16px;
+}
+
+.book-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.book-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    flex: 1;
+}
+
+.book-tag {
+    background-color: #f4f5f8;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1a1a1a;
+    padding: 4px 8px;
+    white-space: nowrap;
+}
+
+.book-author {
+    font-size: 0.9rem;
+    color: #4a4a55;
+    margin-top: 4px;
+}
+
+.book-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    color: #4a4a55;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.star {
+    color: #f5c146;
+    font-size: 0.9rem;
+}
+
+.dot-sep {
+    color: #a0a0ad;
+}
+
+/* Actions carte */
+.book-actions {
+    padding: 16px;
+    border-top: 1px solid #e5e7eb;
+    margin-top: auto;
+}
+
+.actions-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.action-btn {
+    border-radius: 8px !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    padding: 10px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    border: 1px solid transparent !important;
+}
+
+.light-btn {
+    background-color: #fff !important;
+    border-color: #d1d5db !important;
+    color: #1a1a1a !important;
+}
+
+.dark-btn {
+    background-color: #0b0b16 !important;
+    color: #fff !important;
+    border-color: #0b0b16 !important;
+}
+
+.dark-btn[disabled],
+.dark-btn[disabled="disabled"] {
+    background-color: #9ca3af !important;
+    border-color: #9ca3af !important;
+    cursor: not-allowed !important;
+}
+
+.pdf-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #111827;
+    margin-top: 10px;
+}
+
+/* =========================================================
+   PAGE ADD BOOK (addBook.xhtml)
+   ========================================================= */
+
+.content-narrow {
+    max-width: 1100px;
+    margin: 24px auto 40px auto;
+    padding: 0 24px;
+}
+
+.add-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.04);
+    padding: 1.5rem 2rem 2rem 2rem;
+    display: block;
+}
+
+.form-header {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #f1f2f5;
+    padding-bottom: 1rem;
+}
+
+.form-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: .25rem;
+}
+
+.form-hint {
+    font-size: .9rem;
+    color: #6b7280;
+}
+
+/* messages */
+.msgs-block {
+    margin-bottom: 1rem;
+}
+
+/* layout 2 colonnes */
+.row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.field-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.field-label {
+    font-size: .9rem;
+    color: #111827;
+    font-weight: 500;
+    margin-bottom: .5rem;
+}
+
+/* input / select */
+.input,
+.ui-inputtext,
+.ui-inputtextarea,
+.ui-selectonemenu,
+.ui-selectonemenu-label {
+    width: 100% !important;
+    background-color: #f9fafb !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 8px !important;
+    padding: 0.7rem 0.8rem !important;
+    font-size: .95rem !important;
+    color: #111827 !important;
+    box-shadow: 0 0 0 0 transparent !important;
+}
+
+.input:focus,
+.ui-inputtext:focus,
+.ui-inputtextarea:focus,
+.ui-selectonemenu:focus {
+    outline: none !important;
+    border-color: #4f46e5 !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.15) !important;
+}
+
+/* row Disponible ? */
+.available-row {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    background: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: .7rem .8rem;
+}
+
+.small-hint {
+    font-size: .85rem;
+    color: #4b5563;
+}
+
+/* footer bouton */
+.form-footer-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: .75rem;
+    margin-top: 2rem;
+    border-top: 1px solid #f1f2f5;
+    padding-top: 1.5rem;
+}
+
+.btn-cancel,
+.btn-cancel .ui-button-text {
+    background-color: #fff !important;
+    border: 1px solid #d1d5db !important;
+    color: #111827 !important;
+    font-weight: 500 !important;
+    border-radius: 8px !important;
+    padding: .65rem 1rem !important;
+    line-height: 1.2 !important;
+    font-size: .9rem !important;
+}
+
+.btn-cancel:hover {
+    background-color: #f9fafb !important;
+}
+
+.btn-submit,
+.btn-submit .ui-button-text {
+    background-color: #111827 !important;
+    border: 1px solid #111827 !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    padding: .65rem 1rem !important;
+    line-height: 1.2 !important;
+    font-size: .9rem !important;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.btn-submit:hover {
+    background-color: #1f2937 !important;
+    border-color: #1f2937 !important;
+}
+
+/* =========================================================
+   PAGE DOWNLOADS (downloads.xhtml)
+   ========================================================= */
+
+.downloads-header {
+    margin-bottom: 16px;
+}
+
+.downloads-header h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.search-bar .ui-inputtext {
+    min-width: 180px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background-color: #eef2ff;
+    color: #3730a3;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* =========================================================
+   PAGE BOOK (book.xhtml)
+   ========================================================= */
+
+.book-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.book-details .title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.book-details .meta {
+    font-size: 0.9rem;
+    color: #4b5563;
+    margin-bottom: 4px;
+}
+
+
+/* =========================================================
+   REGISTER PAGE — Même thème que LOGIN
+   ========================================================= */
+
+/* Page wrapper */
+.login-page {
+    background-color: #f8f9ff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Centrage global */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Carte inscription (identique login) */
+.login-card {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    padding: 48px 56px;
+    width: 420px;
+    text-align: center;
+}
+
+/* Logo rond */
+.logo {
+    width: 68px;
+    height: 68px;
+    background-color: #0b0b14;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    margin: 0 auto 18px auto;
+}
+
+/* Titre & sous-titre */
+.app-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #1d1d1d;
+}
+
+.subtitle {
+    color: #7a7a7a;
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+}
+
+/* Champs du formulaire */
+.field {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.field label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+/* Inputs */
+.input,
+.ui-inputfield,
+.ui-password {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    background-color: #f5f5f5;
+    font-size: 0.95rem;
+    color: #333;
+    transition: all 0.2s ease-in-out;
+}
+
+.input:focus,
+.ui-inputfield:focus,
+.ui-password:focus {
+    border-color: #0b0b14;
+    background-color: #ffffff;
+    outline: none;
+}
+
+/* Messages PrimeFaces */
+.msg-block {
+    margin-bottom: 16px;
+}
+
+/* Bouton principal */
+.btn-login {
+    width: 100%;
+    background-color: #0b0b14 !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 600 !important;
+    padding: 12px 0 !important;
+    border-radius: 10px !important;
+    font-size: 1rem !important;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-login:hover {
+    background-color: #232332 !important;
+}
+
+/* Lien vers login */
+.register-alt {
+    margin-top: 18px;
+    font-size: 0.90rem;
+    color: #555;
+}
+
+.register-link {
+    margin-left: 6px;
+    color: #0b0b14;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+
+
+/* =============== PAGE DOWNLOADS =============== */
+
+.downloads-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.downloads-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f9fafb;
+    margin: 0;
+}
+
+.downloads-subtitle {
+    margin: 0;
+    color: #9ca3af;
+    font-size: 0.95rem;
+}
+
+/* Carte principale */
+.downloads-card {
+    background: #0b1020;
+    border-radius: 18px;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+/* =============== FILTRES EN HAUT =============== */
+
+.filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.filter-input {
+    flex: 1 1 220px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #020617;
+    border-radius: 999px;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.filter-input i {
+    font-size: 0.9rem;
+    color: #9ca3af;
+}
+
+.filter-input .ui-inputfield {
+    width: 100%;
+    border: none;
+    background: transparent !important;
+    color: #e5e7eb;
+    padding: 0;
+    box-shadow: none !important;
+    font-size: 0.9rem;
+}
+
+.filter-input .ui-inputfield::placeholder {
+    color: #6b7280;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Boutons */
+.btn-primary,
+.btn-secondary {
+    border-radius: 999px !important;
+    border: none !important;
+    font-size: 0.85rem !important;
+    padding: 0.55rem 1.3rem !important;
+    font-weight: 500 !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+    color: #f9fafb !important;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.05);
+}
+
+.btn-secondary {
+    background: transparent !important;
+    border: 1px solid rgba(148, 163, 184, 0.5) !important;
+    color: #e5e7eb !important;
+}
+
+.btn-secondary:hover {
+    background: rgba(148, 163, 184, 0.15) !important;
+}
+
+/* =============== MESSAGES =============== */
+
+.downloads-messages {
+    margin-bottom: 1rem;
+}
+
+/* ========= SECTION TÉLÉCHARGEMENTS ========= */
+
+.downloads-header {
+    margin-bottom: 1.5rem;
+}
+
+.downloads-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #f9fafb;
+    margin-bottom: 0.25rem;
+}
+
+.downloads-subtitle {
+    color: #9ca3af;
+    font-size: 0.95rem;
+}
+
+/* Carte qui contient le tableau */
+.downloads-card {
+    background: #020617;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid #1f2937;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.8);
+}
+
+/* Messages */
+.downloads-messages {
+    margin-bottom: 1rem;
+}
+
+/* Filtres au-dessus du tableau */
+.filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.filter-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    background: #020617;
+    border: 1px solid #1f2937;
+}
+
+.filter-input i {
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+.filter-input .ui-inputfield {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    color: #e5e7eb;
+    width: 180px;
+    padding: 0;
+}
+
+.filter-input .ui-inputfield::placeholder {
+    color: #6b7280;
+}
+
+/* Boutons filtres */
+.filter-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+    border-radius: 999px;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    color: #0b1020;
+}
+
+.btn-secondary {
+    background: #020617;
+    color: #e5e7eb;
+    border: 1px solid #374151;
+}
+
+.btn-danger {
+    background: #b91c1c;
+    color: #f9fafb;
+}
+
+/* ========= TABLE PRIMEFACES ========= */
+
+/* Conteneur datatable */
+.downloads-table {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #020617;
+}
+
+/* En-têtes */
+.downloads-table .ui-datatable-tablewrapper thead th {
+    background: #020617;
+    color: #e5e7eb;
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid #1f2937;
+}
+
+/* Lignes */
+.downloads-table .ui-datatable-data > tr > td {
+    background: #020617;
+    color: #e5e7eb;
+    border: none;
+    padding: 0.65rem 1rem;
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+/* Alternance légère */
+.downloads-table .ui-datatable-data > tr:nth-child(even) > td {
+    background: #020617;
+}
+.downloads-table .ui-datatable-data > tr:nth-child(odd) > td {
+    background: #020617;
+}
+
+/* Hover */
+.downloads-table .ui-datatable-data > tr.ui-state-hover > td,
+.downloads-table .ui-datatable-data > tr:hover > td {
+    background: #111827 !important;
+}
+
+/* Titre + auteur dans la première colonne */
+.cell-title {
+    font-weight: 500;
+    color: #f9fafb;
+    display: block;
+}
+
+.cell-author {
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+
+/* Tag genre */
+.col-genre {
+    width: 120px;
+}
+
+.genre-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(249, 115, 22, 0.12);
+    color: #fdba74;
+    font-size: 0.75rem;
+}
+
+/* Colonne actions */
+.col-action {
+    width: 120px;
+    text-align: right;
+}
+
+/* Pagination */
+.downloads-table .ui-paginator {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 0 0;
+}
+
+.downloads-table .ui-paginator-page,
+.downloads-table .ui-paginator-next,
+.downloads-table .ui-paginator-prev {
+    background: #020617;
+    border-radius: 999px;
+    border: 1px solid #1f2937;
+    color: #e5e7eb;
+}
+
+
+/* ====== PROFIL ====== */
+
+.profile-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.profile-card {
+    background: #020617;
+    border-radius: 18px;
+    padding: 1.8rem 2rem;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+}
+
+.profile-section {
+    margin-bottom: 1.75rem;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #e5e7eb;
+    margin-bottom: 0.3rem;
+}
+
+.section-hint {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    margin-bottom: 0.9rem;
+}
+
+.readonly-text {
+    display: inline-block;
+    padding: 0.4rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(15,23,42,0.9);
+    border: 1px solid rgba(148, 163, 184, 0.5);
+    font-size: 0.8rem;
+    color: #cbd5f5;
+}
+

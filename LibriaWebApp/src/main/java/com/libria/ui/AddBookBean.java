@@ -6,8 +6,11 @@ import jakarta.inject.Named;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 
-import java.io.Serializable;
 import jakarta.ws.rs.core.Response;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
+
+import java.io.Serializable;
 import java.util.Map;
 
 @Named("addBookBean")
@@ -20,16 +23,62 @@ public class AddBookBean implements Serializable {
     private int year;
     private String genre;
     private boolean available = true;
-    private String coverPath;
-    private String pdf;
+
+    // URL retournées par le service upload
+    private String coverPath;   // pour "cover"
+    private String pdf;     // pour "pdf"
 
     @Inject
-    private LibriaWebAppService service; // on va lui ajouter une méthode addBook()
+    private LibriaWebAppService service;
+
+    @Inject
+    private LoginBean loginBean;
+
+
+    public void handleCoverUpload(FileUploadEvent event) {
+        try {
+            UploadedFile file = event.getFile();
+
+            String url = service.uploadCover(file); // POST /files/cover
+            this.coverPath = url;
+
+            addMsg(FacesMessage.SEVERITY_INFO,
+                    "Couverture importée : " + file.getFileName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            addMsg(FacesMessage.SEVERITY_ERROR,
+                    "Erreur lors de l'upload de la couverture.");
+        }
+    }
+
+
+    public void handlePdfUpload(FileUploadEvent event) {
+        try {
+            UploadedFile file = event.getFile();
+
+            String url = service.uploadPdf(file);   // POST /files/pdf
+            this.pdf = url;
+
+            addMsg(FacesMessage.SEVERITY_INFO,
+                    "PDF importé : " + file.getFileName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            addMsg(FacesMessage.SEVERITY_ERROR,
+                    "Erreur lors de l'upload du PDF.");
+        }
+    }
+
 
     public void submit() {
         FacesContext ctx = FacesContext.getCurrentInstance();
 
-        // construire l'objet comme JSON pour le service REST
+        if (coverPath == null || coverPath.isBlank() ||
+                pdf == null || pdf.isBlank()) {
+            addMsg(FacesMessage.SEVERITY_WARN,
+                    "Veuillez importer une couverture et un PDF.");
+            return;
+        }
+
         Map<String,Object> payload = Map.of(
                 "isbn", isbn,
                 "title", title,
@@ -37,23 +86,23 @@ public class AddBookBean implements Serializable {
                 "year", year,
                 "genre", genre,
                 "available", available,
-                "coverPath", coverPath,
+                "coverImage", coverPath,
                 "pdf", pdf
         );
 
-        Response resp = service.addBook(payload);
+
+        String adminId = loginBean.getUserId();
+
+        Response resp = service.addBook(adminId, payload);
 
         if (resp.getStatus() == 201) {
-            ctx.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO,
-                            "Livre ajouté ✅", null));
+            addMsg(FacesMessage.SEVERITY_INFO, "Livre ajouté à Libria et au Chat Bot assistant ✅");
             reset();
         } else {
-            String msg = resp.hasEntity() ? resp.readEntity(String.class)
-                    : "Erreur ("+resp.getStatus()+")";
-            ctx.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            msg, null));
+            String msg = resp.hasEntity()
+                    ? resp.readEntity(String.class)
+                    : "Erreur (" + resp.getStatus() + ")";
+            addMsg(FacesMessage.SEVERITY_ERROR, msg);
         }
     }
 
@@ -68,7 +117,13 @@ public class AddBookBean implements Serializable {
         pdf = "";
     }
 
-    // getters / setters JSF
+    private void addMsg(FacesMessage.Severity sev, String msg) {
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(sev, msg, null));
+    }
+
+
+
     public String getIsbn() { return isbn; }
     public void setIsbn(String isbn) { this.isbn = isbn; }
 
@@ -91,5 +146,5 @@ public class AddBookBean implements Serializable {
     public void setCoverPath(String coverPath) { this.coverPath = coverPath; }
 
     public String getPdf() { return pdf; }
-    public void setPdf(String pdf) { this.pdf = pdf; }
+    public void setPdf(String pdfPath) { this.pdf = pdfPath; }
 }

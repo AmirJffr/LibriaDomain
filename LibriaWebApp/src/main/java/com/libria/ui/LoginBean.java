@@ -5,6 +5,9 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -14,70 +17,147 @@ public class LoginBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String userId;
+    // ---------- Champs de login ----------
+    private String email;      // utilisé pour se connecter
     private String password;
-    private String role;
+
+    // ---------- Infos de session ----------
+    private String userId;     // MBxxxx renvoyé par l'API
+    private String role;       // ADMIN / USER ...
 
     @Inject
     private LibriaWebAppService service;
 
+    // ---------- Helpers de session ----------
+    public static HttpSession getSession(boolean create) {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        if (fc == null) return null;
+        var ext = fc.getExternalContext();
+        if (ext == null) return null;
+        return (HttpSession) ext.getSession(create);
+    }
+
+    public static void invalidateSession() {
+        HttpSession s = getSession(false);
+        if (s != null) s.invalidate();
+    }
+
+    private void addMsg(FacesMessage.Severity sev, String msg) {
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(sev, msg, null));
+    }
+
+    // ---------- Actions ----------
+
     public String login() {
         FacesContext ctx = FacesContext.getCurrentInstance();
 
-        if (userId == null || userId.isBlank() || password == null || password.isBlank()) {
-            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Veuillez remplir tous les champs.", null));
+        if (isBlank(email) || isBlank(password)) {
+            addMsg(FacesMessage.SEVERITY_WARN,
+                    "Veuillez saisir l'email et le mot de passe.");
             return null;
         }
 
         try {
-            Map<String, Object> res = service.login(userId, password);
+            // appel REST avec email + password
+            Map<String, Object> data = service.loginByEmail(email, password);
 
-            if (res == null || res.isEmpty()) {
-                ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Identifiants invalides", null));
+            if (data == null || data.isEmpty()) {
+                addMsg(FacesMessage.SEVERITY_ERROR,
+                        "Email ou mot de passe incorrect.");
                 return null;
             }
 
-            this.role = (String) res.get("role");
+            // valeurs renvoyées par le service
+            this.userId = (String) data.get("userId");             // MBxxxx
+            this.role   = (String) data.getOrDefault("role", "USER");
 
-            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Connexion réussie", null));
-
-            // ✅ redirige vers la page principale
+            // redirection vers la bibliothèque
             return "library?faces-redirect=true";
 
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Erreur de connexion au serveur", null));
+            addMsg(FacesMessage.SEVERITY_ERROR,
+                    "Erreur serveur lors de la connexion.");
             return null;
         }
     }
 
     public String logout() {
         try {
-            service.logout();
+            service.logout();   // si le backend gère quelque chose
         } catch (Exception ignored) {}
 
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Déconnexion réussie", null));
+        invalidateSession();    // détruit la session HTTP
 
-        this.userId = null;
+        this.email = null;
         this.password = null;
+        this.userId = null;
         this.role = null;
 
-        // retour à la page de connexion
+        addMsg(FacesMessage.SEVERITY_INFO, "Déconnexion réussie.");
         return "login?faces-redirect=true";
     }
 
-    // --- Getters / Setters ---
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+    public boolean isLoggedIn() {
+        return userId != null && !userId.isBlank();
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void checkLoggedIn() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        if (ctx == null) return;
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+
+        String viewId = ctx.getViewRoot().getViewId();
+
+        // On laisse passer la page login (et éventuellement register)
+        if (viewId != null && (viewId.endsWith("login.xhtml") || viewId.endsWith("register.xhtml"))) {
+            return;
+        }
+
+        if (!isLoggedIn()) {
+            try {
+                var ec = ctx.getExternalContext();
+                // redirection vers login + arrêt du cycle JSF
+                ec.redirect(ec.getRequestContextPath() + "/login.xhtml");
+                ctx.responseComplete();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private boolean isBlank(String s) {
+        return s == null || s.trim().isEmpty();
+    }
+
+    // ---------- Getters / Setters (JSF) ----------
+
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

@@ -36,4 +36,18 @@ public class UserBean implements Serializable {
             ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur (" + status + ")", null));
         }
     }
+
+    public boolean hasDownloaded(String isbn) {
+        String userId = loginBean.getUserId();
+        try {
+            var list = service.listDownloads(userId); // List<Map>
+            if (list == null) return false;
+
+            return list.stream().anyMatch(d ->
+                    isbn.equals(d.get("isbn"))
+            );
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

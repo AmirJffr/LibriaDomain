@@ -7,10 +7,12 @@ import java.util.*;
 public class Library {
     private Map<String, Book> catalogByIsbn;
     private Map<String, User> usersById;
+    private Map<String, User> usersByEmail;
 
     public Library() {
         this.catalogByIsbn = new HashMap<>();
         this.usersById = new HashMap<>();
+        this.usersByEmail = new HashMap<>();
     }
 
 
@@ -22,7 +24,11 @@ public class Library {
         if (usersById.containsKey(user.getUserId())) {
             throw new UserAlreadyExistException("Cet utilisateur existe déja !");
         }
+        if (usersByEmail.containsKey(user.getEmail().toLowerCase())) {
+            throw new UserAlreadyExistException("Cet email est déjà utilisé.");
+        }
         usersById.put(user.getUserId(), user);
+        usersByEmail.put(user.getEmail().toLowerCase(), user);
     }
 
     void addBook(Book book) {
@@ -110,6 +116,18 @@ public class Library {
         if (user == null) {
             throw new UserNotFoundException("Utilisateur avec l'ID " + userId + " introuvable.");
         }
+        return user;
+    }
+    public User getUserByEmail(String email) throws UserNotFoundException {
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email invalide.");
+        }
+
+        User user = usersByEmail.get(email.toLowerCase());
+        if (user == null) {
+            throw new UserNotFoundException("Aucun utilisateur trouvé avec cet email.");
+        }
+
         return user;
     }
 

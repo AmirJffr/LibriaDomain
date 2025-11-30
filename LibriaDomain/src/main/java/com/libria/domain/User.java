@@ -14,7 +14,9 @@ public abstract class User {
     private List<Book> downloadedBooks;
 
 
-    public User() {}
+    public User() {
+        this.downloadedBooks = new ArrayList<>();
+    }
     public User(String userId, String name, String email, String password) {
         this.userId = userId;
         this.name = name;
@@ -79,7 +81,7 @@ public abstract class User {
     }
 
 
-    public void changePassword(String newPassword) {
+    public void setPassword(String newPassword) {
         this.password = newPassword;
     }
 
