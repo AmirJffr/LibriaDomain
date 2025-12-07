@@ -1,17 +1,31 @@
 package com.libria.domain;
 import com.libria.exception.pdfBookMissingException;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.util.Objects;
 
-
+@Entity
+@Table(name = "books")
 public class Book {
+    @Id
+    @Column(name = "isbn", nullable = false, length = 20)
     private String isbn;
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String author;
+    @Column(name = "book_year",nullable = false)
     private int year;
+    @Column(nullable = false)
     private String genre;
+    @Column(nullable = false)
     private boolean available;
+    @Column(nullable = false)
     private String coverPath; //url de l'image de couverture du livre
+    @Column(nullable = false)
     private String pdfPath; //url pour le fichier pdf du livre
 
 

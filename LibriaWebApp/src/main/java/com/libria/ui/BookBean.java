@@ -169,6 +169,48 @@ public class BookBean implements Serializable {
         }
     }
 
+    public String delete() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+
+        String adminId = loginBean.getUserId();
+        String role    = loginBean.getRole();
+
+        if (adminId == null || adminId.isBlank()) {
+            addMsg(FacesMessage.SEVERITY_ERROR,
+                    "Session expirée, veuillez vous reconnecter.");
+            return null; // reste sur la même page
+        }
+        if (!"ADMIN".equals(role)) {
+            addMsg(FacesMessage.SEVERITY_ERROR,
+                    "Seuls les administrateurs peuvent supprimer des livres.");
+            return null;
+        }
+
+        Response resp = service.deleteBook(adminId, isbn);
+        int status = resp.getStatus();
+
+        if (status == 204) { // supprimé OK
+            addMsg(FacesMessage.SEVERITY_INFO,
+                    "Livre supprimé avec succès.");
+            // Redirection JSF (pas de redirect() manuel)
+            return "library?faces-redirect=true";
+        }
+
+        String msg = resp.hasEntity() ? resp.readEntity(String.class) : null;
+
+        if (status == 403) {
+            addMsg(FacesMessage.SEVERITY_ERROR,
+                    msg != null ? msg : "Accès refusé.");
+        } else if (status == 404) {
+            addMsg(FacesMessage.SEVERITY_ERROR,
+                    msg != null ? msg : "Livre introuvable.");
+        } else {
+            addMsg(FacesMessage.SEVERITY_ERROR,
+                    "Erreur (" + status + ") " + (msg != null ? msg : "Erreur inconnue."));
+        }
+
+        return null; // rester sur la page en cas d'erreur
+    }
     public static class BookView implements Serializable {
         private String isbn;
         private String title;

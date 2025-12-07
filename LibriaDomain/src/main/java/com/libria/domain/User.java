@@ -1,16 +1,38 @@
 package com.libria.domain;
 import com.libria.exception.*;
+import jakarta.persistence.*;
 
 import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(
+        name = "role",
+        discriminatorType = DiscriminatorType.STRING,
+        length = 20
+)
 public abstract class User {
+
+    @Id
+    @Column(name = "user_id", nullable = false, unique = true)
     private String userId;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_book_downloads",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "isbn")
+    )
     private List<Book> downloadedBooks;
 
 

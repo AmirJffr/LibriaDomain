@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/templates/MainTemplate.xhtml">
+
+    <!-- titre onglet -->
+    <ui:define name="title">
+        Libria — Mes téléchargements
+    </ui:define>
+
+    <!-- page active -->
+    <ui:param name="activePage" value="downloads"/>
+
+    <!-- contenu -->
+    <ui:define name="content">
+
+        <section class="downloads-header">
+            <h1 class="downloads-title">Mes téléchargements</h1>
+            <p class="downloads-subtitle">
+                Retrouvez tous les livres que vous avez téléchargés.
+            </p>
+        </section>
+
+        <section class="downloads-card">
+            <h:form id="downloadsForm">
+
+                <!-- Filtres -->
+                <div class="filters-row">
+                    <div class="filter-input">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <p:inputText value="#{downloadsBean.queryTitle}"
+                                     placeholder="Filtrer par titre"/>
+                    </div>
+
+                    <div class="filter-input">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <p:inputText value="#{downloadsBean.queryGenre}"
+                                     placeholder="Filtrer par genre"/>
+                    </div>
+
+                    <div class="filter-actions">
+                        <p:commandButton value="Filtrer"
+                                         styleClass="btn-primary"
+                                         actionListener="#{downloadsBean.filter}"
+                                         update="downloadsTable msgs"/>
+
+                        <p:commandButton value="Tout"
+                                         styleClass="btn-secondary"
+                                         actionListener="#{downloadsBean.reload}"
+                                         update="downloadsTable msgs"/>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <p:messages id="msgs"
+                            showSummary="true"
+                            showDetail="false"
+                            closable="true"
+                            styleClass="downloads-messages"/>
+
+                <!-- Tableau -->
+                <p:dataTable id="downloadsTable"
+                             value="#{downloadsBean.books}"
+                             var="b"
+                             paginator="true"
+                             rows="7"
+                             styleClass="downloads-table">
+
+                    <p:column headerText="Titre">
+                        <span class="cell-title">#{b.title}</span>
+                        <div class="cell-author">#{b.author}</div>
+                    </p:column>
+
+                    <p:column headerText="Genre" styleClass="col-genre">
+                        <span class="genre-tag">#{b.genre}</span>
+                    </p:column>
+
+                    <p:column headerText="Action" styleClass="col-action">
+                        <p:commandButton value="Retirer"
+                                         icon="pi pi-times"
+                                         styleClass="btn-danger"
+                                         actionListener="#{downloadsBean.remove(b.isbn)}"
+                                         update="downloadsTable msgs"/>
+                    </p:column>
+                </p:dataTable>
+
+            </h:form>
+        </section>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Libria — Connexion</title>
+    <meta charset="UTF-8" />
+    <h:outputStylesheet name="css/style.css"/>
+    <h:outputStylesheet name="css/login.css"/>
+</h:head>
+
+<h:body class="login-page">
+
+    <div class="login-wrapper">
+        <div class="login-card">
+
+            <div class="brand-icon-img">
+                <img src="#{request.contextPath}/resources/images/logo.png" alt="logo"/>
+            </div>
+
+
+            <h2 class="app-title">Librairie en Ligne</h2>
+            <p class="subtitle">
+                Connectez-vous pour accéder à votre bibliothèque
+            </p>
+
+            <h:form id="loginForm" styleClass="login-form">
+                <p:messages id="msgs" closable="true" styleClass="msg-block"/>
+
+                <!-- EMAIL -->
+                <div class="field">
+                    <h:outputLabel for="email" value="Email"/>
+                    <p:inputText id="email"
+                                 value="#{loginBean.email}"
+                                 placeholder="votre@email.com"
+                                 required="true"
+                                 label="Email"
+                                 requiredMessage="L'email est obligatoire"
+                                 styleClass="input"/>
+                </div>
+
+                <!-- MOT DE PASSE -->
+                <div class="field">
+                    <h:outputLabel for="password" value="Mot de passe"/>
+                    <p:password id="password"
+                                value="#{loginBean.password}"
+                                feedback="false"
+                                placeholder="••••••••"
+                                required="true"
+                                label="Mot de passe"
+                                requiredMessage="Le mot de passe est obligatoire"
+                                styleClass="input"/>
+                </div>
+
+                <!-- Connexion -->
+                <p:commandButton value="Se connecter"
+                                 action="#{loginBean.login}"
+                                 ajax="false"
+                                 styleClass="btn-login"/>
+
+                <h:button value="Inscription"
+                          outcome="register?faces-redirect=true"
+                          styleClass="btn-login btn-secondary"/>
+            </h:form>
+
+        </div>
+    </div>
+
+</h:body>
+</html>

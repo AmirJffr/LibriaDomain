@@ -3,52 +3,401 @@ package com.libria.domain;
 import com.libria.exception.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 import javax.security.auth.login.LoginException;
+import java.util.List;
 
 @ApplicationScoped
 public class ApplicationState {
 
-    private Library library;
-
-    public Library getLibrary() {
-        return library;
-    }
+    @PersistenceContext(unitName = "LibriaPU")
+    private EntityManager em;
 
     @PostConstruct
     public void init() {
-        library = new Library();
-        seedData();
+        System.out.println("LibriaService - ApplicationState initialisé (aucune donnée seedée au démarrage)");
     }
 
-    public void addBook(String userId, Book book) throws AccessDeniedException, BookAlreadyExistException {
-        User user = library.getUser(userId);
-        if (!(user instanceof Admin)) throw new AccessDeniedException("Seul un administrateur peut ajouter des livres.");
-        ((Admin) user).addBookToLibrary(library, book);
+    /* =====================================================
+     *  ADMIN PAR DÉFAUT
+     * ===================================================== */
+
+    /**
+     * Crée l'admin par défaut s'il n'existe pas déjà.
+     * Admin : AD01 / "Super Admin" / admin@libria.com / libria123
+     */
+    @Transactional
+    public void ensureDefaultAdminExists() {
+        Long countAdmins = em.createQuery(
+                "SELECT COUNT(a) FROM Admin a", Long.class
+        ).getSingleResult();
+
+        if (countAdmins == 0L) {
+            Admin admin = new Admin(
+                    "AD01",
+                    "Super Admin",
+                    "admin@libria.com",
+                    "libria123"
+            );
+            em.persist(admin);
+            System.out.println("LibriaService - Admin par défaut créé (admin@libria.com / libria123)");
+        }
     }
 
-    public void removeBook(String userId, String isbn) throws AccessDeniedException, BookNotFoundException {
-        User user = library.getUser(userId);
-        if (!(user instanceof Admin)) throw new AccessDeniedException("Seul un administrateur peut supprimer des livres.");
-        ((Admin) user).removeBookFromLibrary(library, isbn);
+    /* =====================================================
+     *  BOOKS - LECTURE
+     * ===================================================== */
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<Book> listAllBooks() {
+        return em.createQuery("SELECT b FROM Book b", Book.class)
+                .getResultList();
     }
 
-    public void updateBook(String userId, String isbn, Book updated) throws AccessDeniedException, BookNotFoundException {
-        User user = library.getUser(userId);
-        if (!(user instanceof Admin)) throw new AccessDeniedException("Seul un administrateur peut modifier des livres.");
-        ((Admin) user).updateBookInLibrary(library, isbn, updated);
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public Book findBookByIsbn(String isbn) throws BookNotFoundException {
+        if (isbn == null || isbn.isBlank()) {
+            throw new IllegalArgumentException("ISBN invalide.");
+        }
+        Book b = em.find(Book.class, isbn);
+        if (b == null) {
+            throw new BookNotFoundException("Livre introuvable pour ISBN " + isbn);
+        }
+        return b;
     }
 
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<Book> searchBooksByTitle(String title) {
+        if (title == null) title = "";
+        return em.createQuery(
+                        "SELECT b FROM Book b WHERE LOWER(b.title) LIKE LOWER(:t)",
+                        Book.class)
+                .setParameter("t", "%" + title + "%")
+                .getResultList();
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<Book> searchBooksByAuthor(String author) {
+        if (author == null) author = "";
+        return em.createQuery(
+                        "SELECT b FROM Book b WHERE LOWER(b.author) LIKE LOWER(:a)",
+                        Book.class)
+                .setParameter("a", "%" + author + "%")
+                .getResultList();
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<Book> searchBooksByTitleOrAuthor(String q) {
+        if (q == null) q = "";
+        return em.createQuery("""
+                SELECT b FROM Book b
+                WHERE LOWER(b.title)  LIKE LOWER(CONCAT('%', :q, '%'))
+                   OR LOWER(b.author) LIKE LOWER(CONCAT('%', :q, '%'))
+                """, Book.class)
+                .setParameter("q", q)
+                .getResultList();
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<Book> searchBooksByGenre(String genre) {
+        if (genre == null) genre = "";
+        return em.createQuery("""
+                SELECT b FROM Book b
+                WHERE LOWER(b.genre) = LOWER(:g)
+                """, Book.class)
+                .setParameter("g", genre)
+                .getResultList();
+    }
+
+    /* =====================================================
+     *  USERS / MEMBERS
+     * ===================================================== */
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<User> findAllUsers() {
+        return em.createQuery("SELECT u FROM User u", User.class)
+                .getResultList();
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public User findUserById(String userId) throws UserNotFoundException {
+        if (userId == null || userId.isBlank()) {
+            throw new IllegalArgumentException("ID utilisateur invalide.");
+        }
+        User u = em.find(User.class, userId);
+        if (u == null) {
+            throw new UserNotFoundException("Utilisateur introuvable : " + userId);
+        }
+        return u;
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public User findUserByEmail(String email) throws UserNotFoundException {
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email invalide.");
+        }
+
+        User u = em.createQuery(
+                        "SELECT u FROM User u WHERE LOWER(u.email) = LOWER(:mail)",
+                        User.class)
+                .setParameter("mail", email.toLowerCase())
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+
+        if (u == null) {
+            throw new UserNotFoundException("Aucun utilisateur trouvé avec cet email.");
+        }
+        return u;
+    }
+
+    @Transactional
+    public void registerMember(Member m) throws UserAlreadyExistException {
+        if (m == null) {
+            throw new IllegalArgumentException("Member non fourni.");
+        }
+
+        Long count = em.createQuery(
+                        "SELECT COUNT(u) FROM User u WHERE LOWER(u.email) = LOWER(:email)",
+                        Long.class
+                ).setParameter("email", m.getEmail())
+                .getSingleResult();
+
+        if (count > 0) {
+            throw new UserAlreadyExistException("Email déjà utilisé : " + m.getEmail());
+        }
+
+        em.persist(m);
+    }
+
+    @Transactional
+    public void changePassword(String userId, String newPassword) throws UserNotFoundException {
+        if (newPassword == null || newPassword.isBlank()) {
+            throw new IllegalArgumentException("Nouveau mot de passe invalide.");
+        }
+        User u = findUserById(userId);
+        u.setPassword(newPassword);
+        // pas besoin de merge, l'entité est gérée
+    }
+
+    @Transactional
+    public void deleteUser(String userId) throws UserNotFoundException {
+        User u = findUserById(userId);
+        em.remove(u);
+    }
+
+    /* =====================================================
+     *  DOWNLOADS (livres téléchargés par user)
+     * ===================================================== */
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<Book> listDownloads(String userId) throws UserNotFoundException {
+        User u = findUserById(userId);
+        return u.listDownloadedBooks(); // ManyToMany gérée par JPA
+    }
+
+    @Transactional
+    public void addDownload(String userId, String isbn)
+            throws UserNotFoundException, BookNotFoundException, BookAlreadyExistException {
+
+        User u = findUserById(userId);
+
+        Book b = em.find(Book.class, isbn);
+        if (b == null) {
+            throw new BookNotFoundException("Livre introuvable : " + isbn);
+        }
+
+        u.downloadBook(b); // peut lancer BookAlreadyExistException
+    }
+
+    @Transactional
+    public void removeDownload(String userId, String isbn)
+            throws UserNotFoundException, BookNotFoundException {
+
+        User u = findUserById(userId);
+
+        Book b = em.find(Book.class, isbn);
+        if (b == null) {
+            throw new BookNotFoundException("Livre introuvable : " + isbn);
+        }
+
+        u.removeBook(b);
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<Book> searchDownloads(String userId, String title, String genre)
+            throws UserNotFoundException {
+
+        User u = findUserById(userId);
+        var list = u.listDownloadedBooks();
+
+        if ((title == null || title.isBlank()) && (genre == null || genre.isBlank())) {
+            return list;
+        }
+
+        String t = (title == null) ? "" : title.toLowerCase();
+        String g = (genre == null) ? "" : genre.toLowerCase();
+
+        return list.stream()
+                .filter(b ->
+                        (t.isBlank() || b.getTitle().toLowerCase().contains(t)) &&
+                                (g.isBlank() || g.equalsIgnoreCase(b.getGenre()))
+                )
+                .toList();
+    }
+
+    /* =====================================================
+     *  CRUD LIVRES (admin uniquement)
+     * ===================================================== */
+
+    @Transactional
+    public void addBook(String userId, Book book)
+            throws AccessDeniedException, BookAlreadyExistException {
+
+        if (book == null) {
+            throw new IllegalArgumentException("Book non fourni.");
+        }
+
+        User user = em.find(User.class, userId);
+        if (user == null || !(user instanceof Admin)) {
+            throw new AccessDeniedException("Seul un administrateur peut ajouter des livres.");
+        }
+
+        if (em.find(Book.class, book.getIsbn()) != null) {
+            throw new BookAlreadyExistException("Livre déjà existant !");
+        }
+
+        em.persist(book);
+    }
+
+    @Transactional
+    public void removeBook(String userId, String isbn)
+            throws AccessDeniedException, BookNotFoundException {
+
+        User admin = em.find(User.class, userId);
+        if (admin == null || !(admin instanceof Admin)) {
+            throw new AccessDeniedException("Seul un administrateur peut supprimer des livres.");
+        }
+
+        Book existing = em.find(Book.class, isbn);
+        if (existing == null) {
+            throw new BookNotFoundException("Livre introuvable !");
+        }
+
+        // 1) Enlever le livre de tous les téléchargements
+        var users = em.createQuery("""
+                SELECT u FROM User u
+                JOIN u.downloadedBooks b
+                WHERE b.isbn = :isbn
+            """, User.class)
+                .setParameter("isbn", isbn)
+                .getResultList();
+
+        for (User u : users) {
+            u.removeBook(existing);  // met à jour la table de jointure
+        }
+
+        // 2) Supprimer le livre
+        em.remove(existing);
+    }
+    @Transactional
+    public User updateProfile(String userId, String newName, String newEmail)
+            throws UserNotFoundException, UserAlreadyExistException {
+
+        User u = findUserById(userId);  // entity MANAGÉE
+
+        if (newName != null && !newName.isBlank()) {
+            u.setName(newName);
+        }
+
+        if (newEmail != null && !newEmail.isBlank()) {
+
+            // Vérifier que l'email n'est pas déjà utilisé par un autre user
+            Long count = em.createQuery(
+                            "SELECT COUNT(u2) FROM User u2 " +
+                                    "WHERE LOWER(u2.email) = LOWER(:mail) " +
+                                    "AND u2.userId <> :id",
+                            Long.class)
+                    .setParameter("mail", newEmail.toLowerCase())
+                    .setParameter("id", userId)
+                    .getSingleResult();
+
+            if (count > 0) {
+                throw new UserAlreadyExistException("Email déjà utilisé : " + newEmail);
+            }
+
+            u.setEmail(newEmail);
+        }
+
+        // Pas besoin de em.merge(u) : u est MANAGÉ + @Transactional
+        return u;
+    }
+    @Transactional
+    public void updateBook(String userId, String isbn, Book updated)
+            throws AccessDeniedException, BookNotFoundException {
+
+        if (updated == null) {
+            throw new IllegalArgumentException("Book mis à jour non fourni.");
+        }
+
+        User user = em.find(User.class, userId);
+        if (user == null || !(user instanceof Admin)) {
+            throw new AccessDeniedException("Seul un administrateur peut modifier des livres.");
+        }
+
+        Book existing = em.find(Book.class, isbn);
+        if (existing == null) {
+            throw new BookNotFoundException("Livre introuvable !");
+        }
+
+        if (updated.getTitle() != null && !updated.getTitle().isBlank()) {
+            existing.setTitle(updated.getTitle());
+        }
+        if (updated.getAuthor() != null && !updated.getAuthor().isBlank()) {
+            existing.setAuthor(updated.getAuthor());
+        }
+        if (updated.getGenre() != null && !updated.getGenre().isBlank()) {
+            existing.setGenre(updated.getGenre());
+        }
+        if (updated.getYear() > 0) {
+            existing.setYear(updated.getYear());
+        }
+        if (updated.getPdf() != null && !updated.getPdf().isBlank()) {
+            existing.setPdf(updated.getPdf());
+        }
+        if (updated.getCoverImage() != null && !updated.getCoverImage().isBlank()) {
+            existing.setCoverImage(updated.getCoverImage());
+        }
+        if (updated.isAvailable() != existing.isAvailable()) {
+            existing.setAvailable(updated.isAvailable());
+        }
+
+        em.merge(existing);
+    }
+
+    /* =====================================================
+     *  AUTHENTIFICATION
+     * ===================================================== */
+
+    @Transactional
     public User authenticate(String email, String password)
-            throws UserNotFoundException, LoginException, IllegalArgumentException {
+            throws UserNotFoundException, LoginException {
 
         if (email == null || email.isBlank() || password == null || password.isBlank()) {
             throw new IllegalArgumentException("Email et mot de passe requis.");
         }
 
+        // S'assure qu'il y a au moins l'admin par défaut en BDD
+        ensureDefaultAdminExists();
 
-        User u = library.listUsers().stream()
-                .filter(user -> email.equalsIgnoreCase(user.getEmail()))
+        User u = em.createQuery(
+                        "SELECT u FROM User u WHERE LOWER(u.email) = :mail",
+                        User.class)
+                .setParameter("mail", email.toLowerCase())
+                .getResultStream()
                 .findFirst()
                 .orElse(null);
 
@@ -56,120 +405,7 @@ public class ApplicationState {
             throw new UserNotFoundException("Utilisateur introuvable pour cet email.");
         }
 
-
-        try {
-            u.login(password); // peut lever LoginException de ton modèle
-            return u;
-        } catch (LoginException e) {
-            throw new LoginException("Mot de passe incorrect.");
-        }
-    }
-
-    // --- Seed complet  ---
-    private void seedData() {
-        Admin admin = new Admin("AD01", "Super Admin", "admin@libria.com", "libria123");
-
-        try {
-            String PUBLIC_BASE = "http://localhost:8081/LibriaService/api/files";
-
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9780132350884", "Clean Code", "Robert C. Martin", 2008,
-                    "Programming", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9780134685991", "Effective Java", "Joshua Bloch", 2018,
-                    "Programming", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9780201616224", "The Pragmatic Programmer", "Andrew Hunt", 1999,
-                    "Programming", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9781492078005", "Designing Data-Intensive Applications", "Martin Kleppmann", 2017,
-                    "Architecture", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9780134494166", "Refactoring", "Martin Fowler", 2018,
-                    "Software Engineering", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9782070464090", "L'Étranger", "Albert Camus", 1942,
-                    "Roman", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9782253004226", "Le Petit Prince", "Antoine de Saint-Exupéry", 1943,
-                    "Conte", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9782070368220", "Les Misérables", "Victor Hugo", 1862,
-                    "Roman", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9780553283686", "Dune", "Frank Herbert", 1965,
-                    "Science Fiction", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9780345339706", "The Hobbit", "J.R.R. Tolkien", 1937,
-                    "Fantasy", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9780553103540", "A Game of Thrones", "George R.R. Martin", 1996,
-                    "Fantasy", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9780451524935", "1984", "George Orwell", 1949,
-                    "Dystopie", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-            ((Admin) admin).addBookToLibrary(library, new Book(
-                    "9780060850524", "Fahrenheit 451", "Ray Bradbury", 1953,
-                    "Dystopie", true,
-                    PUBLIC_BASE + "/cover/cover-exemple.png",
-                    PUBLIC_BASE + "/pdf/pdf-exemple.pdf"
-            ));
-
-            Member zakaria = new Member("MB01", "Zakaria Charouite", "zakaria@libria.com", "zack123");
-            Member ismael  = new Member("MB02", "Ismael Benali",    "ismael@libria.com",  "ism123");
-            Member aurelie = new Member("MB03", "Aurélie Dupont",   "aurelie@libria.com", "aury123");
-            Member karen   = new Member("MB04", "Karen Lemoine",    "karen@libria.com",   "karen321");
-            Member julien  = new Member("MB05", "Julien Mercier",   "julien@libria.com",  "jmerc");
-
-            library.registerUser(zakaria);
-            library.registerUser(ismael);
-            library.registerUser(aurelie);
-            library.registerUser(karen);
-            library.registerUser(julien);
-            library.registerUser(admin);
-
-            System.out.println("LibriaService - ApplicationState initialisé !");
-            System.out.println("   → " + library.listBooks().size() + " livres");
-            System.out.println("   → " + library.listUsers().size() + " utilisateurs");
-
-        } catch (UserAlreadyExistException | BookAlreadyExistException | AccessDeniedException e) {
-            System.err.println("Erreur lors du seed : " + e.getMessage());
-        }
+        u.login(password);  // peut lancer LoginException
+        return u;
     }
 }

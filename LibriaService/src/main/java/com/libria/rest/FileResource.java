@@ -174,7 +174,7 @@ public class FileResource {
     public Response getBookCover(@PathParam("isbn") String isbn) {
         Book book;
         try {
-            book = state.getLibrary().getBook(isbn);
+            book = state.findBookByIsbn(isbn);
         } catch (BookNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("Livre introuvable")
@@ -199,7 +199,7 @@ public class FileResource {
     public Response getBookPdf(@PathParam("isbn") String isbn) {
         Book book;
         try {
-            book = state.getLibrary().getBook(isbn);
+            book = state.findBookByIsbn(isbn);
         } catch (BookNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("Livre introuvable")

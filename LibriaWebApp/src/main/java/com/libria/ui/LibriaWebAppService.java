@@ -143,6 +143,28 @@ public class LibriaWebAppService {
                 .post(Entity.entity(payload, MediaType.APPLICATION_JSON));
     }
 
+    public Response deleteBook(String adminId, String isbn) {
+        try {
+            WebTarget adminTarget = client
+                    .target(BASE)
+                    .path("admin")
+                    .path("books")
+                    .path(adminId)   // /admin/books/{userId}
+                    .path(isbn);     // /admin/books/{userId}/{isbn}
+
+            return adminTarget
+                    .request()
+                    .delete();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                    .entity("Service LibriaService injoignable : " + e.getMessage())
+                    .build();
+        }
+    }
+
     // ===========================
     // REMAINING METHODS (UNCHANGED)
     // ===========================

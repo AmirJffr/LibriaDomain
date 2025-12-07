@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="templates/MainTemplate.xhtml">
+
+    <!-- indique l’onglet actif dans la navbar -->
+    <ui:param name="activePage" value="library"/>
+
+    <!-- titre <title> -->
+    <ui:define name="title">
+        Bibliothèque – Libria
+    </ui:define>
+
+    <!-- CONTENU DE LA PAGE -->
+    <ui:define name="content">
+
+        <section class="page-header">
+            <div class="page-header-texts">
+                <h1 class="page-title">Découvrez notre collection</h1>
+                <p class="page-subtitle">
+                    Explorez #{libraryBean.books.size()} livres disponibles en téléchargement
+                </p>
+            </div>
+        </section>
+
+        <!-- Barre de recherche / filtre -->
+        <section class="filters-row">
+            <h:form id="searchForm" styleClass="search-form">
+
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-ico"></i>
+                    <p:inputText value="#{libraryBean.queryTitle}"
+                                 placeholder="Rechercher par titre ou auteur..."
+                                 styleClass="search-input"/>
+                </div>
+
+                <p:commandButton value="Go"
+                                 action="#{libraryBean.search}"
+                                 update="booksGrid msgs"
+                                 styleClass="hidden-submit"/>
+
+                <div class="category-dropdown">
+                    <p:selectOneMenu value="#{libraryBean.queryGenre}" styleClass="category-select">
+                        <f:selectItem itemLabel="Toutes les catégories" itemValue=""/>
+                        <f:selectItem itemLabel="Fantasy" itemValue="Fantasy"/>
+                        <f:selectItem itemLabel="Roman" itemValue="Roman"/>
+                        <f:selectItem itemLabel="Science Fiction" itemValue="Science Fiction"/>
+                        <f:selectItem itemLabel="Programming" itemValue="Programming"/>
+
+                        <p:ajax listener="#{libraryBean.search}"
+                                update="booksGrid msgs"/>
+                    </p:selectOneMenu>
+                </div>
+
+            </h:form>
+        </section>
+
+        <p:messages id="msgs" closable="true" styleClass="msgs-block"/>
+
+        <!-- GRID DE LIVRES -->
+        <section class="books-grid-wrapper">
+            <h:panelGroup id="booksGrid">
+                <div class="books-grid">
+                    <ui:repeat value="#{libraryBean.books}" var="b">
+                        <div class="book-card">
+
+                            <div class="book-cover">
+                                <ui:fragment rendered="#{not empty b.coverImage}">
+                                    <img src="#{b.coverImage}" alt="#{b.title} cover"/>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{empty b.coverImage}">
+                                    <div class="cover-placeholder">
+                                        <i class="fa-solid fa-book"></i>
+                                    </div>
+                                </ui:fragment>
+                            </div>
+
+                            <div class="book-info">
+                                <div class="book-header-row">
+                                    <div class="book-title">#{b.title}</div>
+                                    <span class="book-tag">#{b.genre}</span>
+                                </div>
+
+                                <div class="book-author">
+                                    #{b.author}
+                                </div>
+
+                                <div class="book-meta-row">
+                                    <div class="dot-sep">•</div>
+                                    <div class="meta-item">
+                                        <span class="meta-text">#{b.year}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="book-actions">
+                                <div class="actions-row">
+                                    <h:link outcome="book"
+                                            styleClass="action-btn light-btn">
+                                        <f:param name="isbn" value="#{b.isbn}"/>
+                                        <i class="pi pi-eye"></i>
+                                        <span>Voir</span>
+                                    </h:link>
+
+                                    <p:commandButton value="Télécharger"
+                                                     icon="pi pi-download"
+                                                     styleClass="action-btn dark-btn"
+                                                     update=":msgs"
+                                                     rendered="#{!userBean.hasDownloaded(b.isbn)}"
+                                                     disabled="#{!b.available}"
+                                                     actionListener="#{userBean.download(b.isbn)}"/>
+                                    <ui:fragment rendered="#{userBean.hasDownloaded(b.isbn)}">
+                                        <div class="already-downloaded">
+                                            <i class="pi pi-check"></i> Déjà téléchargé
+                                        </div>
+                                    </ui:fragment>
+                                </div>
+
+                                <ui:fragment rendered="#{not empty b.pdf}">
+                                    <a class="pdf-link"
+                                       href="#{b.pdf}"
+                                       target="_blank">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                        <span>Ouvrir le PDF</span>
+                                    </a>
+                                </ui:fragment>
+                            </div>
+
+                        </div>
+                    </ui:repeat>
+                </div>
+            </h:panelGroup>
+        </section>
+
+    </ui:define>
+
+</ui:composition>
+</html>

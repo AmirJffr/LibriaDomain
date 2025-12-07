@@ -1,4 +1,19 @@
 services:
+  libria-mysql:
+    image: mysql:8.0
+    container_name: libria-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: libria
+      MYSQL_USER: libria
+      MYSQL_PASSWORD: libria
+    ports:
+      - "3307:3306"
+    volumes:
+      - libria-mysql-data:/var/lib/mysql
+    
+
   payara-libria-service:
     image: payara/server-full:6.2025.8-jdk17
     environment:
@@ -11,6 +26,8 @@ services:
     volumes:
       - ./LibriaService/target/LibriaService.war:/opt/payara/appserver/glassfish/domains/domain1/autodeploy/LibriaService.war
       - ./LibriaService/files:/opt/payara/appserver/files
+      - ./mysql-connector-j-9.5.0.jar:/opt/payara/appserver/glassfish/domains/domain1/lib/mysql-connector-j-9.5.0.jar
+
 
   payara-libria-webapp:
     image: payara/server-full:6.2025.8-jdk17
@@ -26,3 +43,20 @@ services:
       - "4850:4848"
     volumes:
       - ./LibriaWebApp/target/LibriaWebApp.war:/opt/payara/appserver/glassfish/domains/domain1/autodeploy/LibriaWebApp.war
+
+  phpmyadmin:
+    platform: linux/amd64
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: libria-phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: libria-mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - "8083:80"
+    depends_on:
+      - libria-mysql
+
+volumes:
+  libria-mysql-data:

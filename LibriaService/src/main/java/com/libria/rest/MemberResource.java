@@ -16,16 +16,12 @@ public class MemberResource {
     @Inject
     private ApplicationState state;
 
-    private Library lib() {
-        return state.getLibrary();
-    }
-
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response register(Member member) {
         try {
-            lib().registerUser(member);
+            state.registerMember(member);
             return Response.status(Response.Status.CREATED)
                     .entity(member)
                     .build();

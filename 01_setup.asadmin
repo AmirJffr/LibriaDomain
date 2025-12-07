@@ -1,0 +1,19 @@
+# Fichier : 01_setup.asadmin
+
+# 1. Crée le Pool de Connexions
+create-jdbc-connection-pool \
+  --restype javax.sql.DataSource \
+  --datasourceclassname com.mysql.cj.jdbc.MysqlDataSource \
+  --property user=libria:password=libria:serverName=libria-mysql:portNumber=3306:databaseName=libria \
+  LibriaPool
+
+# 2. Crée la Ressource JNDI (jdbc/LibriaDS)
+create-jdbc-resource \
+  --connectionpoolid LibriaPool \
+  jdbc/LibriaDS
+
+# 3. Déploiement de l'application (DOIT ÊTRE EN DERNIER)
+deploy \
+  --name LibriaService \
+  --contextroot /LibriaService \
+  /opt/payara/appserver/glassfish/domains/domain1/files/LibriaService.war

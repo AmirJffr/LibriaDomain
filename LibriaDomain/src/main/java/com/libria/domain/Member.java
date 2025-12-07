@@ -1,5 +1,11 @@
 package com.libria.domain;
 
+
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("MEMBER")
 public class Member extends User {
 
     //pour que payara puisse linstancier

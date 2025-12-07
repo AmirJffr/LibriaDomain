@@ -31,7 +31,7 @@ public class AdminResource {
     @GET
     @Path("/users")
     public List<User> listUsers() {
-        return state.getLibrary().listUsers();
+        return state.findAllUsers();
     }
 
     @POST

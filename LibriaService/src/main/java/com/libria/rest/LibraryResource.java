@@ -22,19 +22,16 @@ public class LibraryResource {
     @Inject
     private ApplicationState state;
 
-    private Library lib() {
-        return state.getLibrary();
-    }
 
     @GET
     @Path("/books")
-    public List<Book> listBooks() { return lib().listBooks(); }
+    public List<Book> listBooks() { return state.listAllBooks(); }
 
     @GET
     @Path("/books/{isbn}")
     public Response getOne(@PathParam("isbn") String isbn) {
         try {
-            var b = lib().getBook(isbn);
+            var b = state.findBookByIsbn(isbn);
             return Response.ok(b).build();
         } catch (BookNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND)
@@ -53,19 +50,19 @@ public class LibraryResource {
     @Path("/books/search")
     public List<Book> searchByTitle(@QueryParam("title") String title) {
         if (title == null || title.isBlank()) return List.of();
-        return lib().searchByTitle(title);
+        return state.searchBooksByTitle(title);
     }
 
     @GET
     @Path("/books/genre/{genre}")
     public List<Book> searchByGenre(@PathParam("genre") String genre) {
-        return lib().searchByGenre(genre);
+        return state.searchBooksByGenre(genre);
     }
 
     @GET
     @Path("/books/author/{author}")
     public List<Book> searchByAuthor(@PathParam("author") String author) {
-        return lib().searchByAuthor(author);
+        return state.searchBooksByAuthor(author);
     }
 
     @GET

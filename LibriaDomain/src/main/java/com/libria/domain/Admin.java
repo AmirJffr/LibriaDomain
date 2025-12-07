@@ -3,8 +3,17 @@ package com.libria.domain;
 import com.libria.exception.AccessDeniedException;
 import com.libria.exception.BookAlreadyExistException;
 import com.libria.exception.BookNotFoundException;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
+@Entity
+@DiscriminatorValue("ADMIN")
 public class Admin extends User {
+
+    public Admin() {
+        super();
+    }
+
     public Admin(String userId, String name, String email, String password) {
         super(userId, name, email, password);
     }

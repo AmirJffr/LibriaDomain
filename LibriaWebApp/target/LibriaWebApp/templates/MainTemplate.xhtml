@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+    <f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}"/>
+</f:metadata>
+<h:head>
+    <title>
+        <ui:insert name="title">Libria</ui:insert>
+    </title>
+
+    <!-- CSS global UNIQUE -->
+    <h:outputStylesheet name="css/style.css"/>
+
+    <!-- icônes -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</h:head>
+
+<h:body class="page-bg">
+
+    <!-- NAVBAR GLOBALE -->
+    <header class="topbar">
+        <div class="topbar-left">
+
+            <div class="brand">
+                <div class="brand-icon-img">
+                    <h:graphicImage name="images/logo.png"/>
+                </div>
+                <div class="brand-text">
+                    <div class="site-title">Librairie en Ligne</div>
+                </div>
+            </div>
+
+            <nav class="main-nav">
+                <h:link outcome="library"
+                        styleClass="#{activePage eq 'library' ? 'nav-item nav-active' : 'nav-item'}">
+                    <i class="fa-solid fa-book"></i>
+                    <span>Bibliothèque</span>
+                </h:link>
+
+                <h:link outcome="downloads"
+                        styleClass="#{activePage eq 'downloads' ? 'nav-item nav-active' : 'nav-item'}">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Mes téléchargements</span>
+                </h:link>
+                <h:link outcome="profile"
+                        styleClass="#{activePage eq 'profile' ? 'nav-item nav-active' : 'nav-item'}">
+                    <i class="fa-solid fa-user-gear"></i>
+                    <span>Mon profil</span>
+                </h:link>
+
+                <h:link outcome="addBook" rendered="#{loginBean.role eq 'ADMIN'}"
+                        styleClass="#{activePage eq 'add' ? 'nav-item nav-active' : 'nav-item'}">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Ajouter</span>
+                </h:link>
+            </nav>
+        </div>
+
+        <div class="topbar-right">
+            <div class="user-chip">
+                <i class="fa-regular fa-user"></i>
+                <span>#{loginBean.userId}</span>
+                <ui:fragment rendered="#{loginBean.role eq 'ADMIN'}">
+                    <span class="role-badge">Admin</span>
+                </ui:fragment>
+            </div>
+
+            <h:form styleClass="logout-form">
+                <p:commandButton value="Déconnexion"
+                                 action="#{loginBean.logout}"
+                                 ajax="false"
+                                 styleClass="logout-btn"/>
+            </h:form>
+        </div>
+    </header>
+
+    <!-- CONTENU SPÉCIFIQUE DES PAGES -->
+    <main class="main-content">
+        <ui:insert name="content"/>
+    </main>
+
+    <div id="chatButton" class="chat-btn" onclick="toggleChat()">
+        💬
+    </div>
+
+    <div id="chatModal" class="chat-modal">
+        <iframe
+                src="https://raina-expo-chat.vercel.app/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSW5pdGlhdG9yVXNlcklkIjoiNjhiYjIxNDEwMDI5M2M2MDYyYzYiLCJjaGF0Ym90SWQiOiI2OTJjNTU1NzAwMDhmMzVhOTJlMiIsImNvbXBhbnlJZCI6IjY4YjVkOGU2MDAzNzdkNGVkNmNmIiwiY29udmVyc2F0aW9uSWQiOiI2OTJjNTZjNDAwM2FjZmRmYzg2MyJ9.Meyp4r9nV99xQMXPGXP8ltT5TqsmxZVeKRf85yRdYcg"
+                sandbox="allow-scripts allow-forms allow-same-origin"
+                class="chat-iframe">
+        </iframe>
+    </div>
+
+    <script>
+        function toggleChat() {
+            document.getElementById("chatModal").classList.toggle("open");
+        }
+    </script>
+
+    <style>
+        .chat-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff6a00;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 99999;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:26px;
+        }
+
+        .chat-modal {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 420px;
+            height: 600px;
+            background: #fff;
+            border-radius: 12px;
+            display:none;
+            z-index:99999;
+            overflow:hidden;
+        }
+
+        .chat-modal.open {
+            display:block;
+        }
+
+        .chat-iframe {
+            width:100%;
+            height:100%;
+            border:none;
+        }
+    </style>
+</h:body>
+</html>
